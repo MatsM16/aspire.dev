@@ -74,7 +74,8 @@ Create `.devcontainer/devcontainer.json`:
 }
 ```
 
-### Key Elements:
+### Key Elements
+
 - **Base Image**: .NET 8.0 SDK
 - **Features**: Node.js LTS for frontend, Docker for containerization
 - **Post-Create**: Installs .NET Aspire workload
@@ -136,9 +137,10 @@ Create `.tours/quickstart.tour`:
 
 Create a `README.md` with:
 
-### Required Sections:
+### Required Sections
 
 #### Quick Launch Button
+
 ```markdown
 ## 🚀 Quick Start
 
@@ -148,6 +150,7 @@ Click to open in GitHub Codespaces (everything pre-configured):
 ```
 
 #### What, Why, How
+
 ```markdown
 ## What is this?
 
@@ -184,6 +187,7 @@ Steps:
 ```
 
 #### CodeTour Section
+
 ```markdown
 ## 🗺️ Interactive Code Tour
 
@@ -201,6 +205,7 @@ This repository includes a CodeTour that guides you through the code.
 ```
 
 #### Running the App
+
 ```markdown
 ## ▶️ Running the Application
 
@@ -361,7 +366,8 @@ export default App;
 
 ## 7. Testing Your Repository
 
-### Local Test:
+### Local Test
+
 1. Push to GitHub
 2. Open in Codespaces
 3. Wait for setup to complete
@@ -369,38 +375,46 @@ export default App;
 5. Run `dotnet run --project ./src/Host/Host.csproj`
 6. Check all endpoints work
 
-### Integration with aspire.dev:
+### Integration with aspire.dev
+
 1. Update the quickstart page with your repo details:
+
    ```astro
    <CodespacesLauncher owner="your-username" repo="your-repo" />
    ```
+
 2. Update CodeTour steps if your structure differs
 3. Test the full flow
 
 ## Tips for Success
 
 ### 1. Keep It Simple
+
 - Focus on one clear concept
 - Minimize dependencies
 - Clear, commented code
 
 ### 2. Comprehensive Documentation
+
 - Explain every step
 - Include screenshots
 - Provide troubleshooting section
 
 ### 3. Fast Setup
+
 - Optimize devcontainer image
 - Pre-install everything possible
 - Test on fresh Codespaces
 
 ### 4. Engaging Tour
+
 - Tell a story
 - Use emojis and formatting
 - Interactive elements (copy buttons)
 - Keep steps under 2-3 minutes each
 
 ### 5. Error Handling
+
 - Provide fallbacks
 - Clear error messages
 - Link to documentation

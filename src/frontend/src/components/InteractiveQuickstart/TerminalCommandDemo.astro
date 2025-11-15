@@ -10,19 +10,21 @@ interface Command {
 
 const commands: Command[] = [
     {
-        id: 'restore',
-        title: 'Restore Dependencies',
-        description: 'First, restore all NuGet packages and dependencies for the solution.',
-        command: 'dotnet restore',
+        id: "restore",
+        title: "Restore Dependencies",
+        description:
+            "First, restore all NuGet packages and dependencies for the solution.",
+        command: "dotnet restore",
         expectedOutput: `Restore completed in 2.5 sec for Host.csproj.
 Restore completed in 1.8 sec for Api.csproj.`,
-        notes: 'This downloads all required packages from NuGet.'
+        notes: "This downloads all required packages from NuGet.",
     },
     {
-        id: 'run',
-        title: 'Run the App Host',
-        description: 'Start the .NET Aspire App Host which orchestrates all your services.',
-        command: 'dotnet run --project ./src/Host/Host.csproj',
+        id: "run",
+        title: "Run the App Host",
+        description:
+            "Start the .NET Aspire App Host which orchestrates all your services.",
+        command: "dotnet run --project ./src/Host/Host.csproj",
         expectedOutput: `Building...
 info: Aspire.Hosting.DistributedApplication[0]
       Aspire version: 13.0.0
@@ -30,20 +32,21 @@ info: Aspire.Hosting.DistributedApplication[0]
       Now listening on: https://localhost:15001
 info: Aspire.Hosting.DistributedApplication[0]
       Dashboard: https://localhost:15001/login?t=abc123xyz`,
-        notes: 'The dashboard URL with token will be shown in the output.'
+        notes: "The dashboard URL with token will be shown in the output.",
     },
     {
-        id: 'dashboard',
-        title: 'Open the Aspire Dashboard',
-        description: 'Access the .NET Aspire dashboard to monitor your application.',
-        command: 'Open the dashboard URL from the previous output',
-        notes: 'Copy the URL with the token (t=...) and paste it in your browser. The dashboard shows logs, metrics, and traces.'
+        id: "dashboard",
+        title: "Open the Aspire Dashboard",
+        description:
+            "Access the .NET Aspire dashboard to monitor your application.",
+        command: "Open the dashboard URL from the previous output",
+        notes: "Copy the URL with the token (t=...) and paste it in your browser. The dashboard shows logs, metrics, and traces.",
     },
     {
-        id: 'test-api',
-        title: 'Test the API',
-        description: 'Once running, test the weather forecast API endpoint.',
-        command: 'curl https://localhost:7001/weatherforecast',
+        id: "test-api",
+        title: "Test the API",
+        description: "Once running, test the weather forecast API endpoint.",
+        command: "curl https://localhost:7001/weatherforecast",
         expectedOutput: `[
   {
     "date": "2025-11-15",
@@ -52,15 +55,15 @@ info: Aspire.Hosting.DistributedApplication[0]
   },
   ...
 ]`,
-        notes: 'You can also click the API endpoint in the dashboard to open it in your browser.'
+        notes: "You can also click the API endpoint in the dashboard to open it in your browser.",
     },
     {
-        id: 'view-app',
-        title: 'View the React App',
-        description: 'Open the React frontend that consumes the API.',
+        id: "view-app",
+        title: "View the React App",
+        description: "Open the React frontend that consumes the API.",
         command: 'Click the "app" endpoint in the Aspire dashboard',
-        notes: 'The React app automatically discovers and connects to the API via Aspire service discovery.'
-    }
+        notes: "The React app automatically discovers and connects to the API via Aspire service discovery.",
+    },
 ];
 ---
 
@@ -68,61 +71,92 @@ info: Aspire.Hosting.DistributedApplication[0]
     <div class="demo-header">
         <h2>▶️ Run the Application</h2>
         <p>
-            Follow these commands in your Codespace terminal to see .NET Aspire in action. 
-            Each command is explained with its purpose and expected output.
+            Follow these commands in your Codespace terminal to see .NET Aspire
+            in action. Each command is explained with its purpose and expected
+            output.
         </p>
     </div>
 
     <div class="commands-list">
-        {commands.map((cmd, index) => (
-            <div class="command-item" data-command-id={cmd.id}>
-                <div class="command-header">
-                    <div class="command-number">{index + 1}</div>
-                    <h3 class="command-title">{cmd.title}</h3>
-                </div>
-                
-                <p class="command-description">{cmd.description}</p>
-
-                <div class="terminal-window">
-                    <div class="terminal-header">
-                        <div class="terminal-dots">
-                            <span class="dot red"></span>
-                            <span class="dot yellow"></span>
-                            <span class="dot green"></span>
-                        </div>
-                        <span class="terminal-title">Terminal</span>
-                        <button class="copy-cmd-button" data-command={cmd.command}>
-                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <rect x="9" y="9" width="13" height="13" rx="2" ry="2"/>
-                                <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>
-                            </svg>
-                        </button>
+        {
+            commands.map((cmd, index) => (
+                <div class="command-item" data-command-id={cmd.id}>
+                    <div class="command-header">
+                        <div class="command-number">{index + 1}</div>
+                        <h3 class="command-title">{cmd.title}</h3>
                     </div>
-                    <div class="terminal-body">
-                        <div class="terminal-prompt">
-                            <span class="prompt-symbol">$</span>
-                            <span class="prompt-command">{cmd.command}</span>
-                        </div>
-                        {cmd.expectedOutput && (
-                            <div class="terminal-output">
-                                <pre>{cmd.expectedOutput}</pre>
+
+                    <p class="command-description">{cmd.description}</p>
+
+                    <div class="terminal-window">
+                        <div class="terminal-header">
+                            <div class="terminal-dots">
+                                <span class="dot red" />
+                                <span class="dot yellow" />
+                                <span class="dot green" />
                             </div>
-                        )}
+                            <span class="terminal-title">Terminal</span>
+                            <button
+                                class="copy-cmd-button"
+                                data-command={cmd.command}
+                            >
+                                <svg
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    width="14"
+                                    height="14"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="2"
+                                >
+                                    <rect
+                                        x="9"
+                                        y="9"
+                                        width="13"
+                                        height="13"
+                                        rx="2"
+                                        ry="2"
+                                    />
+                                    <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" />
+                                </svg>
+                            </button>
+                        </div>
+                        <div class="terminal-body">
+                            <div class="terminal-prompt">
+                                <span class="prompt-symbol">$</span>
+                                <span class="prompt-command">
+                                    {cmd.command}
+                                </span>
+                            </div>
+                            {cmd.expectedOutput && (
+                                <div class="terminal-output">
+                                    <pre>{cmd.expectedOutput}</pre>
+                                </div>
+                            )}
+                        </div>
                     </div>
-                </div>
 
-                {cmd.notes && (
-                    <div class="command-notes">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <circle cx="12" cy="12" r="10"/>
-                            <path d="M12 16v-4"/>
-                            <path d="M12 8h.01"/>
-                        </svg>
-                        <span>{cmd.notes}</span>
-                    </div>
-                )}
-            </div>
-        ))}
+                    {cmd.notes && (
+                        <div class="command-notes">
+                            <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                width="16"
+                                height="16"
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                stroke="currentColor"
+                                stroke-width="2"
+                            >
+                                <circle cx="12" cy="12" r="10" />
+                                <path d="M12 16v-4" />
+                                <path d="M12 8h.01" />
+                            </svg>
+                            <span>{cmd.notes}</span>
+                        </div>
+                    )}
+                </div>
+            ))
+        }
     </div>
 
     <div class="demo-completion">
@@ -135,7 +169,7 @@ info: Aspire.Hosting.DistributedApplication[0]
                 <li>Running full-stack apps with a single command</li>
             </ul>
         </div>
-        
+
         <button class="action-button primary" id="completeRunButton">
             ✅ I've Run the Application
         </button>
@@ -147,36 +181,40 @@ info: Aspire.Hosting.DistributedApplication[0]
         private completeButton: HTMLButtonElement;
 
         constructor() {
-            this.completeButton = document.getElementById('completeRunButton') as HTMLButtonElement;
+            this.completeButton = document.getElementById(
+                "completeRunButton",
+            ) as HTMLButtonElement;
             this.init();
         }
 
         private init(): void {
             this.setupCopyButtons();
-            this.completeButton.addEventListener('click', () => this.handleComplete());
+            this.completeButton.addEventListener("click", () =>
+                this.handleComplete(),
+            );
 
             // Check if already completed
-            if (localStorage.getItem('aspire-app-run') === 'true') {
-                this.completeButton.textContent = '✅ Application Run Complete';
+            if (localStorage.getItem("aspire-app-run") === "true") {
+                this.completeButton.textContent = "✅ Application Run Complete";
                 this.completeButton.disabled = true;
             }
         }
 
         private setupCopyButtons(): void {
-            const copyButtons = document.querySelectorAll('.copy-cmd-button');
-            copyButtons.forEach(button => {
-                button.addEventListener('click', (e) => {
+            const copyButtons = document.querySelectorAll(".copy-cmd-button");
+            copyButtons.forEach((button) => {
+                button.addEventListener("click", (e) => {
                     const target = e.currentTarget as HTMLElement;
-                    const command = target.dataset.command || '';
-                    
+                    const command = target.dataset.command || "";
+
                     navigator.clipboard.writeText(command).then(() => {
-                        const svg = target.querySelector('svg');
+                        const svg = target.querySelector("svg");
                         if (svg) {
-                            svg.style.stroke = '#2ea043';
+                            svg.style.stroke = "#2ea043";
                         }
                         setTimeout(() => {
                             if (svg) {
-                                svg.style.stroke = '';
+                                svg.style.stroke = "";
                             }
                         }, 2000);
                     });
@@ -185,24 +223,29 @@ info: Aspire.Hosting.DistributedApplication[0]
         }
 
         private handleComplete(): void {
-            localStorage.setItem('aspire-app-run', 'true');
-            this.completeButton.textContent = '✅ Application Run Complete';
+            localStorage.setItem("aspire-app-run", "true");
+            this.completeButton.textContent = "✅ Application Run Complete";
             this.completeButton.disabled = true;
 
             // Move to final step
-            window.dispatchEvent(new CustomEvent('quickstart:stepComplete', {
-                detail: { step: 'complete' }
-            }));
+            window.dispatchEvent(
+                new CustomEvent("quickstart:stepComplete", {
+                    detail: { step: "complete" },
+                }),
+            );
 
             // Scroll to completion section
-            const nextSection = document.getElementById('completionSection');
+            const nextSection = document.getElementById("completionSection");
             if (nextSection) {
-                nextSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                nextSection.scrollIntoView({
+                    behavior: "smooth",
+                    block: "start",
+                });
             }
         }
     }
 
-    if (typeof window !== 'undefined') {
+    if (typeof window !== "undefined") {
         new TerminalDemo();
     }
 </script>
@@ -342,7 +385,7 @@ info: Aspire.Hosting.DistributedApplication[0]
 
     .terminal-body {
         padding: 1.25rem;
-        font-family: 'Fira Code', 'Courier New', monospace;
+        font-family: "Fira Code", "Courier New", monospace;
         font-size: 0.9rem;
         line-height: 1.6;
     }
@@ -401,7 +444,11 @@ info: Aspire.Hosting.DistributedApplication[0]
     }
 
     .completion-card {
-        background: linear-gradient(135deg, var(--sl-color-purple-low) 0%, var(--sl-color-bg-nav) 100%);
+        background: linear-gradient(
+            135deg,
+            var(--sl-color-purple-low) 0%,
+            var(--sl-color-bg-nav) 100%
+        );
         padding: 2rem;
         border-radius: 12px;
         border: 2px solid var(--sl-color-purple);
@@ -433,7 +480,7 @@ info: Aspire.Hosting.DistributedApplication[0]
     }
 
     .completion-card li::before {
-        content: '✓';
+        content: "✓";
         color: var(--sl-color-green);
         font-weight: 700;
         margin-right: 0.5rem;

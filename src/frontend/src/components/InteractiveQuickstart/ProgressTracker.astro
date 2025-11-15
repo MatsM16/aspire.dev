@@ -8,53 +8,55 @@ interface Step {
 
 const steps: Step[] = [
     {
-        id: 'launch',
-        title: 'Launch Codespace',
-        icon: '🚀',
-        description: 'Open the sample project in GitHub Codespaces'
+        id: "launch",
+        title: "Launch Codespace",
+        icon: "🚀",
+        description: "Open the sample project in GitHub Codespaces",
     },
     {
-        id: 'setup',
-        title: 'Environment Setup',
-        icon: '⚙️',
-        description: 'Wait for .NET Aspire to install automatically'
+        id: "setup",
+        title: "Environment Setup",
+        icon: "⚙️",
+        description: "Wait for .NET Aspire to install automatically",
     },
     {
-        id: 'tour',
-        title: 'Code Tour',
-        icon: '🗺️',
-        description: 'Follow the guided tour through the codebase'
+        id: "tour",
+        title: "Code Tour",
+        icon: "🗺️",
+        description: "Follow the guided tour through the codebase",
     },
     {
-        id: 'run',
-        title: 'Run the App',
-        icon: '▶️',
-        description: 'Execute commands and see Aspire in action'
+        id: "run",
+        title: "Run the App",
+        icon: "▶️",
+        description: "Execute commands and see Aspire in action",
     },
     {
-        id: 'complete',
-        title: 'Complete',
-        icon: '🎉',
-        description: 'Celebrate and continue learning'
-    }
+        id: "complete",
+        title: "Complete",
+        icon: "🎉",
+        description: "Celebrate and continue learning",
+    },
 ];
 ---
 
 <div class="progress-tracker" id="progressTracker" data-current-step="launch">
     <div class="steps-container">
-        {steps.map((step, index) => (
-            <div class="step" data-step-id={step.id}>
-                <div class="step-indicator">
-                    <div class="step-number">{index + 1}</div>
-                    <div class="step-icon">{step.icon}</div>
+        {
+            steps.map((step, index) => (
+                <div class="step" data-step-id={step.id}>
+                    <div class="step-indicator">
+                        <div class="step-number">{index + 1}</div>
+                        <div class="step-icon">{step.icon}</div>
+                    </div>
+                    <div class="step-content">
+                        <h3 class="step-title">{step.title}</h3>
+                        <p class="step-description">{step.description}</p>
+                    </div>
+                    {index < steps.length - 1 && <div class="step-connector" />}
                 </div>
-                <div class="step-content">
-                    <h3 class="step-title">{step.title}</h3>
-                    <p class="step-description">{step.description}</p>
-                </div>
-                {index < steps.length - 1 && <div class="step-connector"></div>}
-            </div>
-        ))}
+            ))
+        }
     </div>
 </div>
 
@@ -62,10 +64,10 @@ const steps: Step[] = [
     class ProgressTracker {
         private tracker: HTMLElement;
         private currentStep: string;
-        private readonly STORAGE_KEY = 'aspire-quickstart-progress';
+        private readonly STORAGE_KEY = "aspire-quickstart-progress";
 
         constructor() {
-            this.tracker = document.getElementById('progressTracker')!;
+            this.tracker = document.getElementById("progressTracker")!;
             this.currentStep = this.loadProgress();
             this.init();
         }
@@ -78,20 +80,22 @@ const steps: Step[] = [
         private loadProgress(): string {
             try {
                 const saved = localStorage.getItem(this.STORAGE_KEY);
-                return saved || 'launch';
+                return saved || "launch";
             } catch {
-                return 'launch';
+                return "launch";
             }
         }
 
         private saveProgress(): void {
             try {
                 localStorage.setItem(this.STORAGE_KEY, this.currentStep);
-                window.dispatchEvent(new CustomEvent('quickstart:progress', {
-                    detail: { step: this.currentStep }
-                }));
+                window.dispatchEvent(
+                    new CustomEvent("quickstart:progress", {
+                        detail: { step: this.currentStep },
+                    }),
+                );
             } catch (e) {
-                console.warn('Could not save progress:', e);
+                console.warn("Could not save progress:", e);
             }
         }
 
@@ -102,20 +106,20 @@ const steps: Step[] = [
         }
 
         private updateUI(): void {
-            const steps = this.tracker.querySelectorAll('.step');
-            const stepOrder = ['launch', 'setup', 'tour', 'run', 'complete'];
+            const steps = this.tracker.querySelectorAll(".step");
+            const stepOrder = ["launch", "setup", "tour", "run", "complete"];
             const currentIndex = stepOrder.indexOf(this.currentStep);
 
             steps.forEach((step, index) => {
                 const stepEl = step as HTMLElement;
-                stepEl.classList.remove('active', 'completed', 'pending');
-                
+                stepEl.classList.remove("active", "completed", "pending");
+
                 if (index < currentIndex) {
-                    stepEl.classList.add('completed');
+                    stepEl.classList.add("completed");
                 } else if (index === currentIndex) {
-                    stepEl.classList.add('active');
+                    stepEl.classList.add("active");
                 } else {
-                    stepEl.classList.add('pending');
+                    stepEl.classList.add("pending");
                 }
             });
 
@@ -123,12 +127,20 @@ const steps: Step[] = [
         }
 
         private setupListeners(): void {
-            window.addEventListener('quickstart:stepComplete', ((e: CustomEvent) => {
+            window.addEventListener("quickstart:stepComplete", ((
+                e: CustomEvent,
+            ) => {
                 const { step } = e.detail;
-                const stepOrder = ['launch', 'setup', 'tour', 'run', 'complete'];
+                const stepOrder = [
+                    "launch",
+                    "setup",
+                    "tour",
+                    "run",
+                    "complete",
+                ];
                 const currentIndex = stepOrder.indexOf(this.currentStep);
                 const newIndex = stepOrder.indexOf(step);
-                
+
                 if (newIndex > currentIndex) {
                     this.setStep(step);
                 }
@@ -136,14 +148,14 @@ const steps: Step[] = [
         }
 
         public reset(): void {
-            this.currentStep = 'launch';
+            this.currentStep = "launch";
             this.saveProgress();
             this.updateUI();
         }
     }
 
     // Initialize on load
-    if (typeof window !== 'undefined') {
+    if (typeof window !== "undefined") {
         const tracker = new ProgressTracker();
         (window as any).quickstartTracker = tracker;
     }
@@ -277,7 +289,8 @@ const steps: Step[] = [
     }
 
     @keyframes pulse {
-        0%, 100% {
+        0%,
+        100% {
             box-shadow: 0 0 0 0 rgba(136, 58, 234, 0.4);
         }
         50% {

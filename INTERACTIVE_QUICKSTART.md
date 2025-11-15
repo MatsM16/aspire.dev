@@ -16,30 +16,35 @@ The Interactive Quickstart is a comprehensive, hands-on learning experience for 
 All components are located in `src/frontend/src/components/InteractiveQuickstart/`:
 
 #### 1. ProgressTracker.astro
+
 - Visual stepper showing user progress through 5 stages
 - Persists progress to localStorage
 - Emits and listens for step completion events
 - Stages: Launch → Setup → Tour → Run → Complete
 
 #### 2. CodespacesLauncher.astro
+
 - Embedded Codespaces launch button
 - Tracks launch status
 - Shows preview of what the Codespace looks like
 - Guides user to mark when they've opened the Codespace
 
 #### 3. CodeTourViewer.astro
+
 - Displays CodeTour steps inline on the page
 - Shows code snippets with syntax highlighting
 - Copy buttons for code samples
 - Explains what each part of the Aspire app does
 
 #### 4. TerminalCommandDemo.astro
+
 - Step-by-step terminal commands
 - Shows expected output for each command
 - Copy buttons for commands
 - Covers: restore, run, dashboard access, API testing
 
 #### 5. CompletionCelebration.astro
+
 - Animated celebration screen with confetti
 - Achievement list showing what was learned
 - Next steps cards with navigation
@@ -51,6 +56,7 @@ All components are located in `src/frontend/src/components/InteractiveQuickstart
 **Location:** `src/frontend/src/pages/quickstart/index.astro`
 
 A standalone page that combines all components into a cohesive flow. Features:
+
 - Custom navigation header
 - Hero section with value proposition
 - All interactive components in sequence
@@ -59,6 +65,7 @@ A standalone page that combines all components into a cohesive flow. Features:
 ### State Management
 
 Progress tracking uses:
+
 - **localStorage** for persistence across sessions
 - **Custom events** for component communication
 - **Event names:**
@@ -69,6 +76,7 @@ Progress tracking uses:
 ### Navigation Integration
 
 Added to `sidebar.topics.ts` as a top-level item in the docs section with:
+
 - Multi-language translations
 - "New" badge
 - Direct link to `/quickstart`
@@ -94,9 +102,10 @@ README.md                  # Comprehensive guide
 
 ### Example Repository
 
-Reference: https://github.com/IEvangelist/fullstack-js
+Reference: <https://github.com/IEvangelist/fullstack-js>
 
 This repo demonstrates:
+
 - .NET Aspire App Host orchestrating services
 - ASP.NET Core minimal API backend
 - React frontend with TypeScript
@@ -106,18 +115,22 @@ This repo demonstrates:
 ## User Flow
 
 ### 1. Arrival (Hero Section)
+
 User lands on `/quickstart` and sees:
+
 - Value proposition (5-10 min tutorial, zero setup)
 - Features checklist
 - Progress tracker showing all steps
 
 ### 2. Launch Phase
+
 - User clicks "Open in GitHub Codespaces"
 - New browser tab opens Codespace
 - User returns and marks as launched
 - Progress tracker moves to "Setup"
 
 ### 3. Tour Phase
+
 - User follows CodeTour in Codespace (VS Code)
 - Page shows same tour steps with explanations
 - Each step shows:
@@ -129,6 +142,7 @@ User lands on `/quickstart` and sees:
 - Progress tracker moves to "Run"
 
 ### 4. Run Phase
+
 - Shows terminal commands to run the app
 - Each command includes:
   - Description
@@ -145,6 +159,7 @@ User lands on `/quickstart` and sees:
 - Progress tracker moves to "Complete"
 
 ### 5. Completion Phase
+
 - Animated celebration with confetti
 - Achievement badges
 - "What you learned" summary
@@ -159,17 +174,20 @@ User lands on `/quickstart` and sees:
 ## Features
 
 ### Progressive Enhancement
+
 - Works without JavaScript (links still functional)
 - Enhanced with JS for tracking and animations
 - LocalStorage gracefully degrades
 
 ### Responsive Design
+
 - Mobile-first approach
 - Breakpoints at 768px and 1024px
 - Touch-friendly buttons
 - Collapsible sections on mobile
 
 ### Accessibility
+
 - Semantic HTML
 - ARIA labels where needed
 - Keyboard navigation support
@@ -177,6 +195,7 @@ User lands on `/quickstart` and sees:
 - High contrast colors
 
 ### Performance
+
 - Lazy loading images
 - Minimal dependencies
 - CSS animations (GPU accelerated)
@@ -287,7 +306,7 @@ cd src/frontend
 npm run dev
 ```
 
-Visit: http://localhost:4321/quickstart/
+Visit: <http://localhost:4321/quickstart/>
 
 ### Building
 
@@ -304,16 +323,19 @@ npm run preview
 ## Troubleshooting
 
 ### Codespaces Button Not Working
+
 - Ensure repository is public or user has access
 - Check repository owner/name are correct
 - Verify devcontainer configuration exists
 
 ### Progress Not Saving
+
 - Check browser's localStorage is enabled
 - Try clearing site data and restarting
 - Check browser console for errors
 
 ### Tour Steps Not Matching
+
 - Ensure target repository structure matches
 - Update tour steps if repository changed
 - Verify file paths are correct

@@ -789,7 +789,7 @@ export const sidebarTopics: StarlightSidebarTopicsUserConfig = [
           tr: 'Önbellekleme ve Durum',
           uk: 'Кешування та стан',
           'zh-CN': '缓存与状态',
-         },
+        },
         items: [
           { label: "Redis", slug: "integrations/caching/redis" },
           { label: "Redis Distributed Cache", slug: "integrations/caching/redis-distributed" },
@@ -1342,7 +1342,7 @@ export const sidebarTopics: StarlightSidebarTopicsUserConfig = [
     icon: 'heart',
     items: [
       {
-        label: 'Contributors', 
+        label: 'Contributors',
         translations: {
           da: 'Bidragydere',
           de: 'Mitwirkende',
@@ -1363,7 +1363,8 @@ export const sidebarTopics: StarlightSidebarTopicsUserConfig = [
           'zh-CN': '贡献者'
         },
         items: [
-          { label: 'Contributor overview',
+          {
+            label: 'Contributor overview',
             translations: {
               da: 'Oversigt over bidragydere',
               de: 'Übersicht der Mitwirkenden',
@@ -1385,7 +1386,8 @@ export const sidebarTopics: StarlightSidebarTopicsUserConfig = [
             },
             slug: 'community/contributors'
           },
-          { label: 'Contributor guide', 
+          {
+            label: 'Contributor guide',
             translations: {
               da: 'Bidragydervejledning',
               de: 'Mitwirkenden-Leitfaden',
