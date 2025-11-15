@@ -1,0 +1,365 @@
+---
+interface Props {
+    repo?: string;
+    owner?: string;
+}
+
+const { 
+    repo = 'fullstack-js', 
+    owner = 'IEvangelist' 
+} = Astro.props;
+
+const codespacesUrl = `https://codespaces.new/${owner}/${repo}`;
+---
+
+<div class="codespaces-launcher" id="codespacesLauncher">
+    <div class="launcher-content">
+        <div class="launcher-header">
+            <h2>🚀 Launch Your Interactive Tutorial</h2>
+            <p>
+                Click below to open the sample Aspire project in GitHub Codespaces. 
+                Everything will be configured automatically with .NET Aspire pre-installed.
+            </p>
+        </div>
+
+        <div class="launcher-actions">
+            <a 
+                href={codespacesUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                class="launch-button primary"
+                id="launchCodespaces"
+            >
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M4 22h14a2 2 0 0 0 2-2V7.5L14.5 2H6a2 2 0 0 0-2 2v4"/>
+                    <polyline points="14 2 14 8 20 8"/>
+                    <path d="M2 17v-3a4 4 0 0 1 8 0v3"/>
+                    <rect x="2" y="17" width="8" height="5"/>
+                </svg>
+                Open in GitHub Codespaces
+            </a>
+
+            <div class="info-box">
+                <strong>What happens next?</strong>
+                <ul>
+                    <li>✅ Opens project in your browser</li>
+                    <li>✅ Installs .NET Aspire automatically</li>
+                    <li>✅ Loads CodeTour extension</li>
+                    <li>✅ Ready to start in ~2 minutes</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="launcher-status hidden" id="launcherStatus">
+            <div class="status-indicator">
+                <div class="spinner"></div>
+                <p>Waiting for Codespace to open...</p>
+            </div>
+            <button class="text-button" id="markLaunched">
+                I've opened the Codespace →
+            </button>
+        </div>
+    </div>
+
+    <div class="launcher-preview">
+        <div class="preview-window">
+            <div class="preview-header">
+                <div class="preview-dots">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+                <span class="preview-title">GitHub Codespaces</span>
+            </div>
+            <div class="preview-content">
+                <img 
+                    src="/images/codespaces-preview.svg" 
+                    alt="GitHub Codespaces interface"
+                    loading="lazy"
+                />
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    class CodespacesLauncher {
+        private launchButton: HTMLAnchorElement;
+        private statusDiv: HTMLElement;
+        private markButton: HTMLButtonElement;
+
+        constructor() {
+            this.launchButton = document.getElementById('launchCodespaces') as HTMLAnchorElement;
+            this.statusDiv = document.getElementById('launcherStatus') as HTMLElement;
+            this.markButton = document.getElementById('markLaunched') as HTMLButtonElement;
+            
+            this.init();
+        }
+
+        private init(): void {
+            this.launchButton.addEventListener('click', () => this.handleLaunch());
+            this.markButton.addEventListener('click', () => this.handleMarkLaunched());
+            
+            // Check if already launched
+            const launched = localStorage.getItem('aspire-codespace-launched');
+            if (launched === 'true') {
+                this.showStatus();
+            }
+        }
+
+        private handleLaunch(): void {
+            localStorage.setItem('aspire-codespace-launched', 'true');
+            localStorage.setItem('aspire-launch-timestamp', Date.now().toString());
+            this.showStatus();
+            
+            // Track launch event
+            window.dispatchEvent(new CustomEvent('quickstart:launched', {
+                detail: { timestamp: Date.now() }
+            }));
+        }
+
+        private showStatus(): void {
+            this.statusDiv.classList.remove('hidden');
+            this.launchButton.classList.add('launched');
+        }
+
+        private handleMarkLaunched(): void {
+            localStorage.setItem('aspire-codespace-ready', 'true');
+            
+            // Move to next step
+            window.dispatchEvent(new CustomEvent('quickstart:stepComplete', {
+                detail: { step: 'setup' }
+            }));
+
+            // Scroll to next section
+            const nextSection = document.getElementById('codeTourSection');
+            if (nextSection) {
+                nextSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+        }
+    }
+
+    // Initialize
+    if (typeof window !== 'undefined') {
+        new CodespacesLauncher();
+    }
+</script>
+
+<style>
+    .codespaces-launcher {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 3rem;
+        margin: 3rem 0;
+        padding: 2rem;
+        background: linear-gradient(135deg, var(--sl-color-accent-low) 0%, var(--sl-color-bg) 100%);
+        border-radius: 16px;
+        border: 1px solid var(--sl-color-gray-5);
+    }
+
+    .launcher-content {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+    }
+
+    .launcher-header h2 {
+        margin: 0 0 1rem 0;
+        font-size: 2rem;
+        line-height: 1.2;
+    }
+
+    .launcher-header p {
+        color: var(--sl-color-gray-2);
+        font-size: 1.1rem;
+        line-height: 1.6;
+        margin: 0 0 2rem 0;
+    }
+
+    .launcher-actions {
+        display: flex;
+        flex-direction: column;
+        gap: 1.5rem;
+    }
+
+    .launch-button {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.75rem;
+        padding: 1rem 2rem;
+        font-size: 1.125rem;
+        font-weight: 600;
+        text-decoration: none;
+        border-radius: 8px;
+        transition: all 0.2s ease;
+        justify-content: center;
+    }
+
+    .launch-button.primary {
+        background: var(--sl-color-accent);
+        color: white;
+        border: none;
+    }
+
+    .launch-button.primary:hover {
+        background: var(--sl-color-accent-high);
+        transform: translateY(-2px);
+        box-shadow: 0 8px 20px rgba(136, 58, 234, 0.3);
+    }
+
+    .launch-button.launched {
+        opacity: 0.6;
+        pointer-events: none;
+    }
+
+    .info-box {
+        background: var(--sl-color-bg-nav);
+        padding: 1.5rem;
+        border-radius: 8px;
+        border: 1px solid var(--sl-color-gray-5);
+    }
+
+    .info-box strong {
+        display: block;
+        margin-bottom: 0.75rem;
+        color: var(--sl-color-white);
+    }
+
+    .info-box ul {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+    }
+
+    .info-box li {
+        padding: 0.25rem 0;
+        color: var(--sl-color-gray-2);
+    }
+
+    .launcher-status {
+        margin-top: 1.5rem;
+        padding: 1.5rem;
+        background: var(--sl-color-bg-nav);
+        border-radius: 8px;
+        border: 2px solid var(--sl-color-accent);
+        text-align: center;
+    }
+
+    .launcher-status.hidden {
+        display: none;
+    }
+
+    .status-indicator {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 1rem;
+        margin-bottom: 1rem;
+    }
+
+    .spinner {
+        width: 40px;
+        height: 40px;
+        border: 4px solid var(--sl-color-gray-5);
+        border-top-color: var(--sl-color-accent);
+        border-radius: 50%;
+        animation: spin 1s linear infinite;
+    }
+
+    @keyframes spin {
+        to { transform: rotate(360deg); }
+    }
+
+    .text-button {
+        background: none;
+        border: none;
+        color: var(--sl-color-accent);
+        font-size: 1rem;
+        font-weight: 600;
+        cursor: pointer;
+        padding: 0.5rem 1rem;
+        border-radius: 4px;
+        transition: background 0.2s ease;
+    }
+
+    .text-button:hover {
+        background: var(--sl-color-accent-low);
+    }
+
+    .launcher-preview {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .preview-window {
+        width: 100%;
+        max-width: 600px;
+        border-radius: 8px;
+        overflow: hidden;
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        border: 1px solid var(--sl-color-gray-5);
+    }
+
+    .preview-header {
+        background: var(--sl-color-gray-6);
+        padding: 0.75rem;
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+    }
+
+    .preview-dots {
+        display: flex;
+        gap: 0.5rem;
+    }
+
+    .preview-dots span {
+        width: 12px;
+        height: 12px;
+        border-radius: 50%;
+        background: var(--sl-color-gray-4);
+    }
+
+    .preview-title {
+        color: var(--sl-color-gray-2);
+        font-size: 0.875rem;
+        font-weight: 500;
+    }
+
+    .preview-content {
+        background: var(--sl-color-black);
+        aspect-ratio: 16/9;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: var(--sl-color-gray-3);
+        font-size: 0.875rem;
+    }
+
+    .preview-content img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+    @media (max-width: 1024px) {
+        .codespaces-launcher {
+            grid-template-columns: 1fr;
+        }
+
+        .launcher-preview {
+            order: -1;
+        }
+    }
+
+    @media (max-width: 768px) {
+        .codespaces-launcher {
+            padding: 1.5rem;
+        }
+
+        .launcher-header h2 {
+            font-size: 1.5rem;
+        }
+    }
+</style>

@@ -1,0 +1,486 @@
+---
+interface Command {
+    id: string;
+    title: string;
+    description: string;
+    command: string;
+    expectedOutput?: string;
+    notes?: string;
+}
+
+const commands: Command[] = [
+    {
+        id: 'restore',
+        title: 'Restore Dependencies',
+        description: 'First, restore all NuGet packages and dependencies for the solution.',
+        command: 'dotnet restore',
+        expectedOutput: `Restore completed in 2.5 sec for Host.csproj.
+Restore completed in 1.8 sec for Api.csproj.`,
+        notes: 'This downloads all required packages from NuGet.'
+    },
+    {
+        id: 'run',
+        title: 'Run the App Host',
+        description: 'Start the .NET Aspire App Host which orchestrates all your services.',
+        command: 'dotnet run --project ./src/Host/Host.csproj',
+        expectedOutput: `Building...
+info: Aspire.Hosting.DistributedApplication[0]
+      Aspire version: 13.0.0
+info: Aspire.Hosting.DistributedApplication[0]
+      Now listening on: https://localhost:15001
+info: Aspire.Hosting.DistributedApplication[0]
+      Dashboard: https://localhost:15001/login?t=abc123xyz`,
+        notes: 'The dashboard URL with token will be shown in the output.'
+    },
+    {
+        id: 'dashboard',
+        title: 'Open the Aspire Dashboard',
+        description: 'Access the .NET Aspire dashboard to monitor your application.',
+        command: 'Open the dashboard URL from the previous output',
+        notes: 'Copy the URL with the token (t=...) and paste it in your browser. The dashboard shows logs, metrics, and traces.'
+    },
+    {
+        id: 'test-api',
+        title: 'Test the API',
+        description: 'Once running, test the weather forecast API endpoint.',
+        command: 'curl https://localhost:7001/weatherforecast',
+        expectedOutput: `[
+  {
+    "date": "2025-11-15",
+    "temperatureC": 32,
+    "summary": "Hot"
+  },
+  ...
+]`,
+        notes: 'You can also click the API endpoint in the dashboard to open it in your browser.'
+    },
+    {
+        id: 'view-app',
+        title: 'View the React App',
+        description: 'Open the React frontend that consumes the API.',
+        command: 'Click the "app" endpoint in the Aspire dashboard',
+        notes: 'The React app automatically discovers and connects to the API via Aspire service discovery.'
+    }
+];
+---
+
+<div class="terminal-demo" id="runAppSection">
+    <div class="demo-header">
+        <h2>▶️ Run the Application</h2>
+        <p>
+            Follow these commands in your Codespace terminal to see .NET Aspire in action. 
+            Each command is explained with its purpose and expected output.
+        </p>
+    </div>
+
+    <div class="commands-list">
+        {commands.map((cmd, index) => (
+            <div class="command-item" data-command-id={cmd.id}>
+                <div class="command-header">
+                    <div class="command-number">{index + 1}</div>
+                    <h3 class="command-title">{cmd.title}</h3>
+                </div>
+                
+                <p class="command-description">{cmd.description}</p>
+
+                <div class="terminal-window">
+                    <div class="terminal-header">
+                        <div class="terminal-dots">
+                            <span class="dot red"></span>
+                            <span class="dot yellow"></span>
+                            <span class="dot green"></span>
+                        </div>
+                        <span class="terminal-title">Terminal</span>
+                        <button class="copy-cmd-button" data-command={cmd.command}>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <rect x="9" y="9" width="13" height="13" rx="2" ry="2"/>
+                                <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>
+                            </svg>
+                        </button>
+                    </div>
+                    <div class="terminal-body">
+                        <div class="terminal-prompt">
+                            <span class="prompt-symbol">$</span>
+                            <span class="prompt-command">{cmd.command}</span>
+                        </div>
+                        {cmd.expectedOutput && (
+                            <div class="terminal-output">
+                                <pre>{cmd.expectedOutput}</pre>
+                            </div>
+                        )}
+                    </div>
+                </div>
+
+                {cmd.notes && (
+                    <div class="command-notes">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="12" cy="12" r="10"/>
+                            <path d="M12 16v-4"/>
+                            <path d="M12 8h.01"/>
+                        </svg>
+                        <span>{cmd.notes}</span>
+                    </div>
+                )}
+            </div>
+        ))}
+    </div>
+
+    <div class="demo-completion">
+        <div class="completion-card">
+            <h3>🎯 What You've Learned</h3>
+            <ul>
+                <li>How to run a .NET Aspire application</li>
+                <li>Using the Aspire Dashboard to monitor services</li>
+                <li>How service discovery connects frontend to backend</li>
+                <li>Running full-stack apps with a single command</li>
+            </ul>
+        </div>
+        
+        <button class="action-button primary" id="completeRunButton">
+            ✅ I've Run the Application
+        </button>
+    </div>
+</div>
+
+<script>
+    class TerminalDemo {
+        private completeButton: HTMLButtonElement;
+
+        constructor() {
+            this.completeButton = document.getElementById('completeRunButton') as HTMLButtonElement;
+            this.init();
+        }
+
+        private init(): void {
+            this.setupCopyButtons();
+            this.completeButton.addEventListener('click', () => this.handleComplete());
+
+            // Check if already completed
+            if (localStorage.getItem('aspire-app-run') === 'true') {
+                this.completeButton.textContent = '✅ Application Run Complete';
+                this.completeButton.disabled = true;
+            }
+        }
+
+        private setupCopyButtons(): void {
+            const copyButtons = document.querySelectorAll('.copy-cmd-button');
+            copyButtons.forEach(button => {
+                button.addEventListener('click', (e) => {
+                    const target = e.currentTarget as HTMLElement;
+                    const command = target.dataset.command || '';
+                    
+                    navigator.clipboard.writeText(command).then(() => {
+                        const svg = target.querySelector('svg');
+                        if (svg) {
+                            svg.style.stroke = '#2ea043';
+                        }
+                        setTimeout(() => {
+                            if (svg) {
+                                svg.style.stroke = '';
+                            }
+                        }, 2000);
+                    });
+                });
+            });
+        }
+
+        private handleComplete(): void {
+            localStorage.setItem('aspire-app-run', 'true');
+            this.completeButton.textContent = '✅ Application Run Complete';
+            this.completeButton.disabled = true;
+
+            // Move to final step
+            window.dispatchEvent(new CustomEvent('quickstart:stepComplete', {
+                detail: { step: 'complete' }
+            }));
+
+            // Scroll to completion section
+            const nextSection = document.getElementById('completionSection');
+            if (nextSection) {
+                nextSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+        }
+    }
+
+    if (typeof window !== 'undefined') {
+        new TerminalDemo();
+    }
+</script>
+
+<style>
+    .terminal-demo {
+        max-width: 1200px;
+        margin: 3rem auto;
+        padding: 2rem;
+    }
+
+    .demo-header h2 {
+        margin: 0 0 1rem 0;
+        font-size: 2rem;
+    }
+
+    .demo-header p {
+        color: var(--sl-color-gray-2);
+        font-size: 1.1rem;
+        line-height: 1.6;
+        margin: 0 0 2rem 0;
+    }
+
+    .commands-list {
+        display: flex;
+        flex-direction: column;
+        gap: 2.5rem;
+        margin: 2rem 0;
+    }
+
+    .command-item {
+        background: var(--sl-color-bg-nav);
+        padding: 2rem;
+        border-radius: 12px;
+        border: 1px solid var(--sl-color-gray-5);
+    }
+
+    .command-header {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        margin-bottom: 1rem;
+    }
+
+    .command-number {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 36px;
+        height: 36px;
+        background: var(--sl-color-accent);
+        color: white;
+        border-radius: 50%;
+        font-weight: 700;
+        font-size: 1.125rem;
+        flex-shrink: 0;
+    }
+
+    .command-title {
+        margin: 0;
+        font-size: 1.375rem;
+        color: var(--sl-color-white);
+    }
+
+    .command-description {
+        color: var(--sl-color-gray-2);
+        line-height: 1.6;
+        margin: 0 0 1.5rem 0;
+    }
+
+    .terminal-window {
+        background: #1e1e1e;
+        border-radius: 8px;
+        overflow: hidden;
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+        margin: 1rem 0;
+    }
+
+    .terminal-header {
+        background: #323233;
+        padding: 0.625rem 1rem;
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        border-bottom: 1px solid #1e1e1e;
+    }
+
+    .terminal-dots {
+        display: flex;
+        gap: 0.5rem;
+    }
+
+    .terminal-dots .dot {
+        width: 12px;
+        height: 12px;
+        border-radius: 50%;
+    }
+
+    .terminal-dots .dot.red {
+        background: #ff5f56;
+    }
+
+    .terminal-dots .dot.yellow {
+        background: #ffbd2e;
+    }
+
+    .terminal-dots .dot.green {
+        background: #27c93f;
+    }
+
+    .terminal-title {
+        flex: 1;
+        text-align: center;
+        color: #8b8b8b;
+        font-size: 0.875rem;
+        font-weight: 500;
+    }
+
+    .copy-cmd-button {
+        background: none;
+        border: none;
+        color: #8b8b8b;
+        cursor: pointer;
+        padding: 0.25rem;
+        display: flex;
+        align-items: center;
+        transition: color 0.2s ease;
+    }
+
+    .copy-cmd-button:hover {
+        color: #ffffff;
+    }
+
+    .copy-cmd-button svg {
+        transition: stroke 0.2s ease;
+    }
+
+    .terminal-body {
+        padding: 1.25rem;
+        font-family: 'Fira Code', 'Courier New', monospace;
+        font-size: 0.9rem;
+        line-height: 1.6;
+    }
+
+    .terminal-prompt {
+        display: flex;
+        gap: 0.75rem;
+        margin-bottom: 1rem;
+    }
+
+    .prompt-symbol {
+        color: #4ec9b0;
+        font-weight: 700;
+    }
+
+    .prompt-command {
+        color: #ce9178;
+        flex: 1;
+        word-break: break-all;
+    }
+
+    .terminal-output {
+        color: #d4d4d4;
+        padding-left: 1.5rem;
+        border-left: 2px solid #323233;
+    }
+
+    .terminal-output pre {
+        margin: 0;
+        white-space: pre-wrap;
+        word-break: break-word;
+    }
+
+    .command-notes {
+        display: flex;
+        align-items: flex-start;
+        gap: 0.75rem;
+        padding: 1rem;
+        background: var(--sl-color-gray-6);
+        border-radius: 6px;
+        margin-top: 1rem;
+        color: var(--sl-color-gray-2);
+        font-size: 0.9375rem;
+        line-height: 1.6;
+    }
+
+    .command-notes svg {
+        flex-shrink: 0;
+        margin-top: 0.125rem;
+        stroke: var(--sl-color-blue);
+    }
+
+    .demo-completion {
+        margin-top: 3rem;
+        text-align: center;
+    }
+
+    .completion-card {
+        background: linear-gradient(135deg, var(--sl-color-purple-low) 0%, var(--sl-color-bg-nav) 100%);
+        padding: 2rem;
+        border-radius: 12px;
+        border: 2px solid var(--sl-color-purple);
+        margin-bottom: 2rem;
+    }
+
+    .completion-card h3 {
+        margin: 0 0 1.5rem 0;
+        font-size: 1.5rem;
+        color: var(--sl-color-white);
+    }
+
+    .completion-card ul {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 1rem;
+        text-align: left;
+    }
+
+    .completion-card li {
+        color: var(--sl-color-gray-2);
+        padding: 0.75rem;
+        background: var(--sl-color-bg);
+        border-radius: 6px;
+        line-height: 1.5;
+    }
+
+    .completion-card li::before {
+        content: '✓';
+        color: var(--sl-color-green);
+        font-weight: 700;
+        margin-right: 0.5rem;
+    }
+
+    .action-button {
+        padding: 1rem 2.5rem;
+        font-size: 1.125rem;
+        font-weight: 600;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: all 0.2s ease;
+    }
+
+    .action-button.primary {
+        background: var(--sl-color-green);
+        color: white;
+    }
+
+    .action-button.primary:hover:not(:disabled) {
+        background: var(--sl-color-green-high);
+        transform: translateY(-2px);
+        box-shadow: 0 8px 20px rgba(46, 160, 67, 0.3);
+    }
+
+    .action-button:disabled {
+        opacity: 0.6;
+        cursor: not-allowed;
+    }
+
+    @media (max-width: 768px) {
+        .terminal-demo {
+            padding: 1rem;
+        }
+
+        .command-item {
+            padding: 1.5rem;
+        }
+
+        .terminal-body {
+            font-size: 0.8rem;
+            padding: 1rem;
+        }
+
+        .completion-card ul {
+            grid-template-columns: 1fr;
+        }
+    }
+</style>

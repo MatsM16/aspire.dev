@@ -1,0 +1,490 @@
+---
+const nextSteps = [
+    {
+        icon: '📚',
+        title: 'Explore the Documentation',
+        description: 'Dive deeper into .NET Aspire concepts and features',
+        link: '/get-started/welcome',
+        linkText: 'Read the Docs'
+    },
+    {
+        icon: '🧪',
+        title: 'Try More Samples',
+        description: 'Explore other .NET Aspire sample projects and scenarios',
+        link: '/samples',
+        linkText: 'View Samples'
+    },
+    {
+        icon: '🔌',
+        title: 'Browse Integrations',
+        description: 'Discover integrations for databases, messaging, and more',
+        link: '/integrations',
+        linkText: 'See Integrations'
+    },
+    {
+        icon: '🛠️',
+        title: 'Build Your Own',
+        description: 'Start building your own .NET Aspire application',
+        link: '/get-started/build-your-first-aspire-app',
+        linkText: 'Get Started'
+    }
+];
+
+const achievements = [
+    'Launched a GitHub Codespace',
+    'Explored .NET Aspire architecture',
+    'Understood service orchestration',
+    'Ran a full-stack application',
+    'Used the Aspire Dashboard'
+];
+---
+
+<div class="completion-section" id="completionSection">
+    <div class="celebration-banner">
+        <div class="celebration-content">
+            <div class="celebration-icon">🎉</div>
+            <h1 class="celebration-title">Congratulations!</h1>
+            <p class="celebration-subtitle">
+                You've completed the .NET Aspire Interactive Quickstart
+            </p>
+        </div>
+        
+        <div class="confetti" aria-hidden="true">
+            {Array.from({ length: 50 }).map((_, i) => (
+                <div class="confetti-piece" style={`--rotation: ${Math.random() * 360}deg; --delay: ${Math.random() * 3}s; --duration: ${3 + Math.random() * 2}s;`}></div>
+            ))}
+        </div>
+    </div>
+
+    <div class="achievements-card">
+        <h2>🏆 What You Accomplished</h2>
+        <div class="achievements-grid">
+            {achievements.map((achievement) => (
+                <div class="achievement-item">
+                    <div class="achievement-check">✓</div>
+                    <span>{achievement}</span>
+                </div>
+            ))}
+        </div>
+    </div>
+
+    <div class="next-steps">
+        <h2>🚀 Where to Go Next</h2>
+        <p class="next-steps-intro">
+            Continue your .NET Aspire journey with these resources:
+        </p>
+        
+        <div class="next-steps-grid">
+            {nextSteps.map((step) => (
+                <a href={step.link} class="next-step-card">
+                    <div class="step-icon">{step.icon}</div>
+                    <h3>{step.title}</h3>
+                    <p>{step.description}</p>
+                    <div class="step-link">
+                        {step.linkText}
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M5 12h14"/>
+                            <path d="m12 5 7 7-7 7"/>
+                        </svg>
+                    </div>
+                </a>
+            ))}
+        </div>
+    </div>
+
+    <div class="share-section">
+        <h3>Share Your Success! 🎊</h3>
+        <p>Let others know about your .NET Aspire experience</p>
+        <div class="share-buttons">
+            <a 
+                href="https://twitter.com/intent/tweet?text=I%20just%20completed%20the%20.NET%20Aspire%20Interactive%20Quickstart!%20%F0%9F%9A%80&url=https://aspire.dev/quickstart&hashtags=dotnetaspire,cloudnative"
+                target="_blank"
+                rel="noopener"
+                class="share-button twitter"
+            >
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+                </svg>
+                Share on X
+            </a>
+            <a 
+                href="https://www.linkedin.com/sharing/share-offsite/?url=https://aspire.dev/quickstart"
+                target="_blank"
+                rel="noopener"
+                class="share-button linkedin"
+            >
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+                </svg>
+                Share on LinkedIn
+            </a>
+        </div>
+    </div>
+
+    <div class="restart-section">
+        <button class="restart-button" id="restartTutorial">
+            ↻ Restart Tutorial
+        </button>
+    </div>
+</div>
+
+<script>
+    class CompletionSection {
+        private restartButton: HTMLButtonElement;
+
+        constructor() {
+            this.restartButton = document.getElementById('restartTutorial') as HTMLButtonElement;
+            this.init();
+        }
+
+        private init(): void {
+            this.restartButton.addEventListener('click', () => this.handleRestart());
+            this.triggerConfetti();
+        }
+
+        private triggerConfetti(): void {
+            // Animate confetti on load
+            const confettiPieces = document.querySelectorAll('.confetti-piece');
+            confettiPieces.forEach((piece, index) => {
+                setTimeout(() => {
+                    piece.classList.add('active');
+                }, index * 20);
+            });
+        }
+
+        private handleRestart(): void {
+            if (confirm('Are you sure you want to restart the tutorial? This will reset your progress.')) {
+                // Clear all progress
+                localStorage.removeItem('aspire-quickstart-progress');
+                localStorage.removeItem('aspire-codespace-launched');
+                localStorage.removeItem('aspire-codespace-ready');
+                localStorage.removeItem('aspire-launch-timestamp');
+                localStorage.removeItem('aspire-tour-completed');
+                localStorage.removeItem('aspire-app-run');
+
+                // Reset progress tracker
+                if ((window as any).quickstartTracker) {
+                    (window as any).quickstartTracker.reset();
+                }
+
+                // Scroll to top
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+
+                // Reload after scroll
+                setTimeout(() => {
+                    window.location.reload();
+                }, 500);
+            }
+        }
+    }
+
+    if (typeof window !== 'undefined') {
+        new CompletionSection();
+    }
+</script>
+
+<style>
+    .completion-section {
+        max-width: 1200px;
+        margin: 3rem auto;
+        padding: 2rem;
+    }
+
+    .celebration-banner {
+        position: relative;
+        background: linear-gradient(135deg, var(--sl-color-purple) 0%, var(--sl-color-accent) 100%);
+        border-radius: 20px;
+        padding: 4rem 2rem;
+        text-align: center;
+        overflow: hidden;
+        margin-bottom: 3rem;
+    }
+
+    .celebration-content {
+        position: relative;
+        z-index: 2;
+    }
+
+    .celebration-icon {
+        font-size: 5rem;
+        margin-bottom: 1rem;
+        animation: bounce 1s ease-in-out infinite;
+    }
+
+    @keyframes bounce {
+        0%, 100% { transform: translateY(0); }
+        50% { transform: translateY(-20px); }
+    }
+
+    .celebration-title {
+        margin: 0 0 1rem 0;
+        font-size: 3rem;
+        color: white;
+        text-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+    }
+
+    .celebration-subtitle {
+        font-size: 1.375rem;
+        color: rgba(255, 255, 255, 0.95);
+        margin: 0;
+    }
+
+    .confetti {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        pointer-events: none;
+        overflow: hidden;
+    }
+
+    .confetti-piece {
+        position: absolute;
+        width: 10px;
+        height: 10px;
+        background: var(--color, #ffd700);
+        top: -10%;
+        opacity: 0;
+        transform: rotate(var(--rotation, 0deg));
+        animation: fall var(--duration, 3s) linear var(--delay, 0s) infinite;
+    }
+
+    .confetti-piece.active {
+        opacity: 1;
+    }
+
+    .confetti-piece:nth-child(3n) { --color: #ff6b6b; left: 10%; }
+    .confetti-piece:nth-child(3n+1) { --color: #4ecdc4; left: 30%; }
+    .confetti-piece:nth-child(3n+2) { --color: #ffd93d; left: 50%; }
+    .confetti-piece:nth-child(5n) { --color: #95e1d3; left: 70%; }
+    .confetti-piece:nth-child(7n) { --color: #f38181; left: 90%; }
+
+    @keyframes fall {
+        to {
+            transform: translateY(120vh) rotate(calc(var(--rotation, 0deg) + 360deg));
+            opacity: 0;
+        }
+    }
+
+    .achievements-card {
+        background: var(--sl-color-bg-nav);
+        padding: 2.5rem;
+        border-radius: 16px;
+        border: 2px solid var(--sl-color-green);
+        margin-bottom: 3rem;
+    }
+
+    .achievements-card h2 {
+        margin: 0 0 2rem 0;
+        text-align: center;
+        font-size: 2rem;
+    }
+
+    .achievements-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 1rem;
+    }
+
+    .achievement-item {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        padding: 1rem;
+        background: var(--sl-color-bg);
+        border-radius: 8px;
+        border: 1px solid var(--sl-color-gray-5);
+        transition: transform 0.2s ease;
+    }
+
+    .achievement-item:hover {
+        transform: translateX(5px);
+    }
+
+    .achievement-check {
+        width: 32px;
+        height: 32px;
+        background: var(--sl-color-green);
+        color: white;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 700;
+        flex-shrink: 0;
+    }
+
+    .next-steps {
+        margin-bottom: 3rem;
+    }
+
+    .next-steps h2 {
+        margin: 0 0 1rem 0;
+        text-align: center;
+        font-size: 2rem;
+    }
+
+    .next-steps-intro {
+        text-align: center;
+        color: var(--sl-color-gray-2);
+        font-size: 1.125rem;
+        margin: 0 0 2rem 0;
+    }
+
+    .next-steps-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 1.5rem;
+    }
+
+    .next-step-card {
+        display: flex;
+        flex-direction: column;
+        padding: 2rem;
+        background: var(--sl-color-bg-nav);
+        border: 1px solid var(--sl-color-gray-5);
+        border-radius: 12px;
+        text-decoration: none;
+        transition: all 0.3s ease;
+    }
+
+    .next-step-card:hover {
+        border-color: var(--sl-color-accent);
+        transform: translateY(-4px);
+        box-shadow: 0 12px 24px rgba(136, 58, 234, 0.2);
+    }
+
+    .step-icon {
+        font-size: 3rem;
+        margin-bottom: 1rem;
+    }
+
+    .next-step-card h3 {
+        margin: 0 0 0.75rem 0;
+        color: var(--sl-color-white);
+        font-size: 1.25rem;
+    }
+
+    .next-step-card p {
+        color: var(--sl-color-gray-2);
+        line-height: 1.6;
+        margin: 0 0 1.5rem 0;
+        flex: 1;
+    }
+
+    .step-link {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        color: var(--sl-color-accent);
+        font-weight: 600;
+        transition: gap 0.2s ease;
+    }
+
+    .next-step-card:hover .step-link {
+        gap: 0.75rem;
+    }
+
+    .share-section {
+        background: var(--sl-color-bg-nav);
+        padding: 2rem;
+        border-radius: 12px;
+        text-align: center;
+        margin-bottom: 2rem;
+    }
+
+    .share-section h3 {
+        margin: 0 0 0.5rem 0;
+        font-size: 1.5rem;
+    }
+
+    .share-section p {
+        color: var(--sl-color-gray-2);
+        margin: 0 0 1.5rem 0;
+    }
+
+    .share-buttons {
+        display: flex;
+        gap: 1rem;
+        justify-content: center;
+        flex-wrap: wrap;
+    }
+
+    .share-button {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        padding: 0.75rem 1.5rem;
+        border-radius: 8px;
+        text-decoration: none;
+        font-weight: 600;
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .share-button:hover {
+        transform: translateY(-2px);
+    }
+
+    .share-button.twitter {
+        background: #1da1f2;
+        color: white;
+    }
+
+    .share-button.twitter:hover {
+        box-shadow: 0 4px 12px rgba(29, 161, 242, 0.4);
+    }
+
+    .share-button.linkedin {
+        background: #0077b5;
+        color: white;
+    }
+
+    .share-button.linkedin:hover {
+        box-shadow: 0 4px 12px rgba(0, 119, 181, 0.4);
+    }
+
+    .restart-section {
+        text-align: center;
+    }
+
+    .restart-button {
+        padding: 0.75rem 2rem;
+        background: var(--sl-color-gray-6);
+        color: var(--sl-color-white);
+        border: 1px solid var(--sl-color-gray-5);
+        border-radius: 8px;
+        font-size: 1rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.2s ease;
+    }
+
+    .restart-button:hover {
+        background: var(--sl-color-gray-5);
+        transform: scale(1.05);
+    }
+
+    @media (max-width: 768px) {
+        .completion-section {
+            padding: 1rem;
+        }
+
+        .celebration-title {
+            font-size: 2rem;
+        }
+
+        .celebration-subtitle {
+            font-size: 1.125rem;
+        }
+
+        .achievements-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .share-buttons {
+            flex-direction: column;
+            align-items: stretch;
+        }
+    }
+</style>

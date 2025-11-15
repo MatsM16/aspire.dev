@@ -1,0 +1,539 @@
+---
+interface TourStep {
+    number: number;
+    title: string;
+    file: string;
+    line?: number;
+    description: string;
+    content?: string;
+    action?: string;
+}
+
+const tourSteps: TourStep[] = [
+    {
+        number: 1,
+        title: "App Host Overview",
+        file: "src/Host/Program.cs",
+        line: 3,
+        description:
+            "The App Host is the orchestrator for your .NET Aspire application. It defines all the projects, containers, and resources your app needs.",
+        content: `var builder = DistributedApplication.CreateBuilder(args);
+
+var api = builder.AddProject<Projects.Api>("api");
+
+builder.AddNpmApp("app", "../App")
+    .WithReference(api)
+    .WithEnvironment("BROWSER", "none")
+    .WithHttpEndpoint(env: "PORT")
+    .WithExternalHttpEndpoints()
+    .PublishAsDockerFile();
+
+builder.Build().Run();`,
+        action: "Look at how we define the API project and the React app, then connect them together.",
+    },
+    {
+        number: 2,
+        title: "Adding the API Project",
+        file: "src/Host/Program.cs",
+        line: 5,
+        description:
+            "AddProject adds a .NET project to your app. This creates a managed resource that Aspire can monitor and configure.",
+        content: `var api = builder.AddProject<Projects.Api>("api");`,
+        action: "This line adds your ASP.NET Core API project with automatic service discovery.",
+    },
+    {
+        number: 3,
+        title: "Integrating the Frontend",
+        file: "src/Host/Program.cs",
+        line: 7,
+        description:
+            "AddNpmApp integrates Node.js applications into your Aspire orchestration. Perfect for React, Vue, or any npm-based frontend.",
+        content: `builder.AddNpmApp("app", "../App")
+    .WithReference(api)
+    .WithEnvironment("BROWSER", "none")
+    .WithHttpEndpoint(env: "PORT")
+    .WithExternalHttpEndpoints()
+    .PublishAsDockerFile();`,
+        action: "Notice how WithReference(api) connects the frontend to the backend automatically.",
+    },
+    {
+        number: 4,
+        title: "API Weather Endpoint",
+        file: "src/Api/Program.cs",
+        line: 15,
+        description:
+            "This is a simple ASP.NET Core minimal API that returns weather forecast data. Aspire makes it discoverable.",
+        content: `app.MapGet("/weatherforecast", () =>
+{
+    var forecast = Enumerable.Range(1, 5).Select(index =>
+        new WeatherForecast
+        (
+            DateOnly.FromDateTime(DateTime.Now.AddDays(index)),
+            Random.Shared.Next(-20, 55),
+            summaries[Random.Shared.Next(summaries.Length)]
+        ))
+        .ToArray();
+    return forecast;
+});`,
+        action: "This endpoint is automatically available to your frontend via service discovery.",
+    },
+    {
+        number: 5,
+        title: "Frontend Service Discovery",
+        file: "src/App/src/App.tsx",
+        line: 8,
+        description:
+            "The React app uses an environment variable to discover the API. Aspire injects this automatically.",
+        content: `const apiUrl = import.meta.env.VITE_services__api__https__0 || 
+              import.meta.env.VITE_services__api__http__0;
+
+useEffect(() => {
+  fetch(\`\${apiUrl}/weatherforecast\`)
+    .then(response => response.json())
+    .then(data => setForecasts(data));
+}, []);`,
+        action: "No hardcoded URLs needed - Aspire handles service discovery!",
+    },
+];
+---
+
+<div class="code-tour-viewer" id="codeTourSection">
+    <div class="tour-header">
+        <h2>🗺️ Interactive Code Tour</h2>
+        <p>
+            Follow along with this guided tour to understand how .NET Aspire
+            orchestrates your full-stack application. Each step explains what,
+            why, and how.
+        </p>
+    </div>
+
+    <div class="tour-instructions">
+        <div class="instruction-card">
+            <div class="instruction-icon">📖</div>
+            <div class="instruction-content">
+                <h3>In Your Codespace</h3>
+                <ol>
+                    <li>
+                        Look for the <strong>CodeTour</strong> panel in the Explorer
+                        sidebar
+                    </li>
+                    <li>Click <strong>"Quick tour"</strong></li>
+                    <li>Press <strong>"Start Tour"</strong></li>
+                    <li>Follow along with the steps below</li>
+                </ol>
+            </div>
+        </div>
+    </div>
+
+    <div class="tour-steps">
+        {
+            tourSteps.map((step) => (
+                <div class="tour-step" data-step={step.number}>
+                    <div class="step-header">
+                        <div class="step-badge">Step {step.number}</div>
+                        <h3 class="step-title">{step.title}</h3>
+                    </div>
+
+                    <div class="step-body">
+                        <div class="step-info">
+                            <div class="file-indicator">
+                                <svg
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    width="16"
+                                    height="16"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="2"
+                                >
+                                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+                                    <polyline points="14 2 14 8 20 8" />
+                                </svg>
+                                <code>{step.file}</code>
+                                {step.line && (
+                                    <span class="line-number">
+                                        Line {step.line}
+                                    </span>
+                                )}
+                            </div>
+                        </div>
+
+                        <p class="step-description">{step.description}</p>
+
+                        {step.content && (
+                            <div class="code-preview">
+                                <div class="code-header">
+                                    <span class="code-lang">C#</span>
+                                    <button
+                                        class="copy-button"
+                                        data-code={step.content}
+                                    >
+                                        <svg
+                                            xmlns="http://www.w3.org/2000/svg"
+                                            width="16"
+                                            height="16"
+                                            viewBox="0 0 24 24"
+                                            fill="none"
+                                            stroke="currentColor"
+                                            stroke-width="2"
+                                        >
+                                            <rect
+                                                x="9"
+                                                y="9"
+                                                width="13"
+                                                height="13"
+                                                rx="2"
+                                                ry="2"
+                                            />
+                                            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" />
+                                        </svg>
+                                        Copy
+                                    </button>
+                                </div>
+                                <pre>
+                                    <code>{step.content}</code>
+                                </pre>
+                            </div>
+                        )}
+
+                        {step.action && (
+                            <div class="step-action">
+                                <strong>💡 Key Takeaway:</strong> {step.action}
+                            </div>
+                        )}
+                    </div>
+                </div>
+            ))
+        }
+    </div>
+
+    <div class="tour-complete">
+        <button class="action-button" id="completeTourButton">
+            ✅ I've Completed the Tour
+        </button>
+    </div>
+</div>
+
+<script>
+    class CodeTourViewer {
+        private completeButton: HTMLButtonElement;
+
+        constructor() {
+            this.completeButton = document.getElementById(
+                "completeTourButton",
+            ) as HTMLButtonElement;
+            this.init();
+        }
+
+        private init(): void {
+            this.setupCopyButtons();
+            this.completeButton.addEventListener("click", () =>
+                this.handleComplete(),
+            );
+
+            // Check if already completed
+            if (localStorage.getItem("aspire-tour-completed") === "true") {
+                this.completeButton.textContent = "✅ Tour Completed";
+                this.completeButton.disabled = true;
+            }
+        }
+
+        private setupCopyButtons(): void {
+            const copyButtons = document.querySelectorAll(".copy-button");
+            copyButtons.forEach((button) => {
+                button.addEventListener("click", (e) => {
+                    const target = e.currentTarget as HTMLElement;
+                    const code = target.dataset.code || "";
+
+                    navigator.clipboard.writeText(code).then(() => {
+                        const originalText = target.innerHTML;
+                        target.innerHTML = "✓ Copied!";
+                        setTimeout(() => {
+                            target.innerHTML = originalText;
+                        }, 2000);
+                    });
+                });
+            });
+        }
+
+        private handleComplete(): void {
+            localStorage.setItem("aspire-tour-completed", "true");
+            this.completeButton.textContent = "✅ Tour Completed";
+            this.completeButton.disabled = true;
+
+            // Move to next step
+            window.dispatchEvent(
+                new CustomEvent("quickstart:stepComplete", {
+                    detail: { step: "run" },
+                }),
+            );
+
+            // Scroll to next section
+            const nextSection = document.getElementById("runAppSection");
+            if (nextSection) {
+                nextSection.scrollIntoView({
+                    behavior: "smooth",
+                    block: "start",
+                });
+            }
+        }
+    }
+
+    if (typeof window !== "undefined") {
+        new CodeTourViewer();
+    }
+</script>
+
+<style>
+    .code-tour-viewer {
+        max-width: 1200px;
+        margin: 3rem auto;
+        padding: 2rem;
+    }
+
+    .tour-header h2 {
+        margin: 0 0 1rem 0;
+        font-size: 2rem;
+    }
+
+    .tour-header p {
+        color: var(--sl-color-gray-2);
+        font-size: 1.1rem;
+        line-height: 1.6;
+        margin: 0 0 2rem 0;
+    }
+
+    .tour-instructions {
+        margin: 2rem 0;
+    }
+
+    .instruction-card {
+        display: flex;
+        gap: 1.5rem;
+        padding: 1.5rem;
+        background: var(--sl-color-blue-low);
+        border: 2px solid var(--sl-color-blue);
+        border-radius: 12px;
+    }
+
+    .instruction-icon {
+        font-size: 2.5rem;
+        flex-shrink: 0;
+    }
+
+    .instruction-content h3 {
+        margin: 0 0 1rem 0;
+        color: var(--sl-color-white);
+    }
+
+    .instruction-content ol {
+        margin: 0;
+        padding-left: 1.5rem;
+        color: var(--sl-color-gray-2);
+    }
+
+    .instruction-content li {
+        margin: 0.5rem 0;
+        line-height: 1.6;
+    }
+
+    .tour-steps {
+        display: flex;
+        flex-direction: column;
+        gap: 2rem;
+        margin: 2rem 0;
+    }
+
+    .tour-step {
+        background: var(--sl-color-bg-nav);
+        border: 1px solid var(--sl-color-gray-5);
+        border-radius: 12px;
+        overflow: hidden;
+        transition:
+            transform 0.2s ease,
+            box-shadow 0.2s ease;
+    }
+
+    .tour-step:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+    }
+
+    .step-header {
+        background: var(--sl-color-gray-6);
+        padding: 1.25rem 1.5rem;
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        border-bottom: 1px solid var(--sl-color-gray-5);
+    }
+
+    .step-badge {
+        background: var(--sl-color-accent);
+        color: white;
+        padding: 0.375rem 0.75rem;
+        border-radius: 6px;
+        font-size: 0.875rem;
+        font-weight: 600;
+        white-space: nowrap;
+    }
+
+    .step-title {
+        margin: 0;
+        font-size: 1.25rem;
+        color: var(--sl-color-white);
+    }
+
+    .step-body {
+        padding: 1.5rem;
+    }
+
+    .step-info {
+        margin-bottom: 1rem;
+    }
+
+    .file-indicator {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        padding: 0.5rem 0.75rem;
+        background: var(--sl-color-gray-6);
+        border-radius: 6px;
+        font-size: 0.875rem;
+        color: var(--sl-color-accent);
+    }
+
+    .file-indicator svg {
+        stroke: var(--sl-color-accent);
+    }
+
+    .file-indicator code {
+        color: var(--sl-color-accent);
+        background: none;
+        padding: 0;
+    }
+
+    .line-number {
+        color: var(--sl-color-gray-3);
+        font-size: 0.8rem;
+    }
+
+    .step-description {
+        color: var(--sl-color-gray-2);
+        line-height: 1.7;
+        margin: 0 0 1.5rem 0;
+        font-size: 1rem;
+    }
+
+    .code-preview {
+        background: var(--sl-color-black);
+        border: 1px solid var(--sl-color-gray-5);
+        border-radius: 8px;
+        overflow: hidden;
+        margin: 1rem 0;
+    }
+
+    .code-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0.75rem 1rem;
+        background: var(--sl-color-gray-6);
+        border-bottom: 1px solid var(--sl-color-gray-5);
+    }
+
+    .code-lang {
+        font-size: 0.75rem;
+        color: var(--sl-color-gray-3);
+        font-weight: 600;
+        text-transform: uppercase;
+    }
+
+    .copy-button {
+        display: flex;
+        align-items: center;
+        gap: 0.375rem;
+        padding: 0.375rem 0.75rem;
+        background: var(--sl-color-gray-5);
+        border: none;
+        border-radius: 4px;
+        color: var(--sl-color-white);
+        font-size: 0.875rem;
+        cursor: pointer;
+        transition: background 0.2s ease;
+    }
+
+    .copy-button:hover {
+        background: var(--sl-color-gray-4);
+    }
+
+    .code-preview pre {
+        margin: 0;
+        padding: 1.25rem;
+        overflow-x: auto;
+        font-size: 0.9rem;
+        line-height: 1.6;
+    }
+
+    .code-preview code {
+        color: var(--sl-color-gray-1);
+        background: none;
+        font-family: "Fira Code", monospace;
+    }
+
+    .step-action {
+        background: var(--sl-color-green-low);
+        border-left: 4px solid var(--sl-color-green);
+        padding: 1rem 1.25rem;
+        border-radius: 4px;
+        margin-top: 1.5rem;
+    }
+
+    .step-action strong {
+        color: var(--sl-color-green);
+    }
+
+    .tour-complete {
+        text-align: center;
+        margin: 3rem 0;
+    }
+
+    .action-button {
+        padding: 1rem 2.5rem;
+        font-size: 1.125rem;
+        font-weight: 600;
+        background: var(--sl-color-green);
+        color: white;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: all 0.2s ease;
+    }
+
+    .action-button:hover:not(:disabled) {
+        background: var(--sl-color-green-high);
+        transform: translateY(-2px);
+        box-shadow: 0 8px 20px rgba(46, 160, 67, 0.3);
+    }
+
+    .action-button:disabled {
+        opacity: 0.6;
+        cursor: not-allowed;
+    }
+
+    @media (max-width: 768px) {
+        .code-tour-viewer {
+            padding: 1rem;
+        }
+
+        .instruction-card {
+            flex-direction: column;
+            text-align: center;
+        }
+
+        .step-header {
+            flex-direction: column;
+            text-align: center;
+        }
+    }
+</style>

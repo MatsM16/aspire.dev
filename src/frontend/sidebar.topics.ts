@@ -44,6 +44,32 @@ export const sidebarTopics: StarlightSidebarTopicsUserConfig = [
         }, slug: 'get-started/welcome'
       },
       {
+        label: 'Interactive Quickstart',
+        translations: {
+          da: 'Interaktiv hurtigstart',
+          de: 'Interaktiver Schnellstart',
+          en: 'Interactive Quickstart',
+          es: 'Inicio rápido interactivo',
+          fr: 'Démarrage rapide interactif',
+          hi: 'इंटरैक्टिव त्वरित प्रारंभ',
+          id: 'Mulai cepat interaktif',
+          it: 'Avvio rapido interattivo',
+          ja: 'インタラクティブなクイックスタート',
+          ko: '대화형 빠른 시작',
+          'pt-BR': 'Início rápido interativo',
+          'pt-PT': 'Início rápido interativo',
+          ru: 'Интерактивное быстрое начало',
+          tr: 'Etkileşimli Hızlı Başlangıç',
+          uk: 'Інтерактивний швидкий старт',
+          'zh-CN': '交互式快速入门',
+        },
+        link: '/quickstart',
+        badge: {
+          text: 'New',
+          variant: 'tip'
+        }
+      },
+      {
         label: "What's new", collapsed: true, autogenerate: { directory: 'whats-new' },
         translations: {
           da: 'Hvad er nyt',

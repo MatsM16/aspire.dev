@@ -1,0 +1,302 @@
+---
+interface Step {
+    id: string;
+    title: string;
+    icon: string;
+    description: string;
+}
+
+const steps: Step[] = [
+    {
+        id: 'launch',
+        title: 'Launch Codespace',
+        icon: '🚀',
+        description: 'Open the sample project in GitHub Codespaces'
+    },
+    {
+        id: 'setup',
+        title: 'Environment Setup',
+        icon: '⚙️',
+        description: 'Wait for .NET Aspire to install automatically'
+    },
+    {
+        id: 'tour',
+        title: 'Code Tour',
+        icon: '🗺️',
+        description: 'Follow the guided tour through the codebase'
+    },
+    {
+        id: 'run',
+        title: 'Run the App',
+        icon: '▶️',
+        description: 'Execute commands and see Aspire in action'
+    },
+    {
+        id: 'complete',
+        title: 'Complete',
+        icon: '🎉',
+        description: 'Celebrate and continue learning'
+    }
+];
+---
+
+<div class="progress-tracker" id="progressTracker" data-current-step="launch">
+    <div class="steps-container">
+        {steps.map((step, index) => (
+            <div class="step" data-step-id={step.id}>
+                <div class="step-indicator">
+                    <div class="step-number">{index + 1}</div>
+                    <div class="step-icon">{step.icon}</div>
+                </div>
+                <div class="step-content">
+                    <h3 class="step-title">{step.title}</h3>
+                    <p class="step-description">{step.description}</p>
+                </div>
+                {index < steps.length - 1 && <div class="step-connector"></div>}
+            </div>
+        ))}
+    </div>
+</div>
+
+<script>
+    class ProgressTracker {
+        private tracker: HTMLElement;
+        private currentStep: string;
+        private readonly STORAGE_KEY = 'aspire-quickstart-progress';
+
+        constructor() {
+            this.tracker = document.getElementById('progressTracker')!;
+            this.currentStep = this.loadProgress();
+            this.init();
+        }
+
+        private init(): void {
+            this.updateUI();
+            this.setupListeners();
+        }
+
+        private loadProgress(): string {
+            try {
+                const saved = localStorage.getItem(this.STORAGE_KEY);
+                return saved || 'launch';
+            } catch {
+                return 'launch';
+            }
+        }
+
+        private saveProgress(): void {
+            try {
+                localStorage.setItem(this.STORAGE_KEY, this.currentStep);
+                window.dispatchEvent(new CustomEvent('quickstart:progress', {
+                    detail: { step: this.currentStep }
+                }));
+            } catch (e) {
+                console.warn('Could not save progress:', e);
+            }
+        }
+
+        public setStep(stepId: string): void {
+            this.currentStep = stepId;
+            this.saveProgress();
+            this.updateUI();
+        }
+
+        private updateUI(): void {
+            const steps = this.tracker.querySelectorAll('.step');
+            const stepOrder = ['launch', 'setup', 'tour', 'run', 'complete'];
+            const currentIndex = stepOrder.indexOf(this.currentStep);
+
+            steps.forEach((step, index) => {
+                const stepEl = step as HTMLElement;
+                stepEl.classList.remove('active', 'completed', 'pending');
+                
+                if (index < currentIndex) {
+                    stepEl.classList.add('completed');
+                } else if (index === currentIndex) {
+                    stepEl.classList.add('active');
+                } else {
+                    stepEl.classList.add('pending');
+                }
+            });
+
+            this.tracker.dataset.currentStep = this.currentStep;
+        }
+
+        private setupListeners(): void {
+            window.addEventListener('quickstart:stepComplete', ((e: CustomEvent) => {
+                const { step } = e.detail;
+                const stepOrder = ['launch', 'setup', 'tour', 'run', 'complete'];
+                const currentIndex = stepOrder.indexOf(this.currentStep);
+                const newIndex = stepOrder.indexOf(step);
+                
+                if (newIndex > currentIndex) {
+                    this.setStep(step);
+                }
+            }) as EventListener);
+        }
+
+        public reset(): void {
+            this.currentStep = 'launch';
+            this.saveProgress();
+            this.updateUI();
+        }
+    }
+
+    // Initialize on load
+    if (typeof window !== 'undefined') {
+        const tracker = new ProgressTracker();
+        (window as any).quickstartTracker = tracker;
+    }
+</script>
+
+<style>
+    .progress-tracker {
+        max-width: 1200px;
+        margin: 2rem auto;
+        padding: 2rem;
+    }
+
+    .steps-container {
+        display: flex;
+        flex-direction: column;
+        gap: 1.5rem;
+    }
+
+    .step {
+        position: relative;
+        display: flex;
+        align-items: flex-start;
+        gap: 1.5rem;
+        padding: 1.5rem;
+        border-radius: 12px;
+        background: var(--sl-color-bg-nav);
+        border: 2px solid var(--sl-color-gray-5);
+        transition: all 0.3s ease;
+    }
+
+    .step.pending {
+        opacity: 0.5;
+    }
+
+    .step.active {
+        border-color: var(--sl-color-accent);
+        background: var(--sl-color-accent-low);
+        box-shadow: 0 4px 12px rgba(136, 58, 234, 0.15);
+        transform: scale(1.02);
+    }
+
+    .step.completed {
+        border-color: var(--sl-color-green);
+        background: var(--sl-color-green-low);
+    }
+
+    .step-indicator {
+        position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 64px;
+        height: 64px;
+        border-radius: 50%;
+        background: var(--sl-color-bg);
+        border: 3px solid var(--sl-color-gray-5);
+        flex-shrink: 0;
+        transition: all 0.3s ease;
+    }
+
+    .step.active .step-indicator {
+        border-color: var(--sl-color-accent);
+        background: var(--sl-color-accent);
+        animation: pulse 2s ease-in-out infinite;
+    }
+
+    .step.completed .step-indicator {
+        border-color: var(--sl-color-green);
+        background: var(--sl-color-green);
+    }
+
+    .step-number {
+        position: absolute;
+        font-size: 0.75rem;
+        font-weight: 700;
+        color: var(--sl-color-gray-3);
+        top: -8px;
+        right: -8px;
+        background: var(--sl-color-bg);
+        border-radius: 50%;
+        width: 24px;
+        height: 24px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border: 2px solid var(--sl-color-gray-5);
+    }
+
+    .step.active .step-number {
+        background: var(--sl-color-accent);
+        color: white;
+        border-color: var(--sl-color-accent);
+    }
+
+    .step.completed .step-number {
+        background: var(--sl-color-green);
+        color: white;
+        border-color: var(--sl-color-green);
+    }
+
+    .step-icon {
+        font-size: 2rem;
+        filter: grayscale(1);
+        transition: filter 0.3s ease;
+    }
+
+    .step.active .step-icon,
+    .step.completed .step-icon {
+        filter: grayscale(0);
+    }
+
+    .step-content {
+        flex: 1;
+    }
+
+    .step-title {
+        margin: 0 0 0.5rem 0;
+        font-size: 1.25rem;
+        font-weight: 600;
+        color: var(--sl-color-white);
+    }
+
+    .step-description {
+        margin: 0;
+        color: var(--sl-color-gray-2);
+        line-height: 1.6;
+    }
+
+    .step.active .step-description {
+        color: var(--sl-color-white);
+    }
+
+    @keyframes pulse {
+        0%, 100% {
+            box-shadow: 0 0 0 0 rgba(136, 58, 234, 0.4);
+        }
+        50% {
+            box-shadow: 0 0 0 10px rgba(136, 58, 234, 0);
+        }
+    }
+
+    @media (max-width: 768px) {
+        .progress-tracker {
+            padding: 1rem;
+        }
+
+        .step {
+            flex-direction: column;
+            text-align: center;
+        }
+
+        .step-indicator {
+            margin: 0 auto;
+        }
+    }
+</style>
