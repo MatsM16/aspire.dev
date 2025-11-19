@@ -3,7 +3,7 @@ title: Add Aspire to an existing app
 description: Learn how to add Aspire orchestration to your existing .NET application using aspire init.
 ---
 
-import { Aside, Steps, Tabs, TabItem, FileTree } from '@astrojs/starlight/components';
+import { Aside, Steps, FileTree } from '@astrojs/starlight/components';
 import { Kbd } from 'starlight-kbd/components'
 import LearnMore from '@components/LearnMore.astro';
 
@@ -64,18 +64,12 @@ The `aspire init` command is the starting point for adding Aspire to your existi
    The `aspire init` command runs in **interactive mode** by default. It will:
    
    - Detect your existing solution structure
-   - Prompt you to choose between a **project-based AppHost** or a **single-file AppHost**
+   - Create a file-based AppHost (`apphost.cs`)
    - Analyze your projects and suggest which ones to add to the orchestration
    - Install necessary Aspire packages
 
-   <Aside type="note" title="AppHost options">
-   - **Project-based AppHost**: Creates a new C# project (`.csproj`) with full project structure. Best for complex solutions.
-   - **Single-file AppHost**: Creates a minimal `apphost.cs` file. Best for simpler solutions or getting started quickly.
-   </Aside>
-
 3. Follow the interactive prompts to select:
    
-   - The type of AppHost (project-based or single-file)
    - Which projects in your solution should be orchestrated
    - Dependencies between services
 
@@ -87,74 +81,33 @@ The `aspire init` command is the starting point for adding Aspire to your existi
 
 ### What does `aspire init` create?
 
-After running `aspire init`, your solution will have new Aspire components:
+After running `aspire init`, your solution will have a file-based AppHost:
 
-<Tabs syncKey="apphost-type">
-  <TabItem label="Project-based AppHost">
-  
-  A new AppHost project is added to your solution:
+<FileTree>
+- YourSolution.sln
+- **apphost.cs** (new) orchestration code
+- **apphost.run.json** (new) configuration
+- YourExistingProject/
+  - (unchanged)
+</FileTree>
 
-  <FileTree>
-  - YourSolution.sln (updated)
-  - **YourSolution.AppHost/** (new)
-    - Properties/
-    - appsettings.Development.json
-    - appsettings.json
-    - YourSolution.AppHost.csproj
-    - **AppHost.cs** orchestration code
-  - YourExistingProject/
-    - (unchanged)
-  </FileTree>
+The `apphost.cs` file contains code similar to:
 
-  The `AppHost.cs` file contains code similar to:
+```csharp title="apphost.cs — Example file-based orchestration"
+#:sdk Aspire.AppHost.Sdk@13.0.0
 
-  ```csharp title="AppHost.cs — Example orchestration"
-  var builder = DistributedApplication.CreateBuilder(args);
+var builder = DistributedApplication.CreateBuilder(args);
 
-  var api = builder.AddProject<Projects.YourApi>("api")
-      .WithHttpHealthCheck("/health");
+var api = builder.AddProject<Projects.YourApi>("api")
+    .WithHttpHealthCheck("/health");
 
-  builder.AddProject<Projects.YourWeb>("web")
-      .WithExternalHttpEndpoints()
-      .WithReference(api)
-      .WaitFor(api);
+builder.AddProject<Projects.YourWeb>("web")
+    .WithExternalHttpEndpoints()
+    .WithReference(api)
+    .WaitFor(api);
 
-  builder.Build().Run();
-  ```
-
-  </TabItem>
-  <TabItem label="Single-file AppHost">
-
-  A minimal `apphost.cs` file is created in your solution root:
-
-  <FileTree>
-  - YourSolution.sln
-  - **apphost.cs** (new) orchestration code
-  - **apphost.run.json** (new) configuration
-  - YourExistingProject/
-    - (unchanged)
-  </FileTree>
-
-  The `apphost.cs` file contains code similar to:
-
-  ```csharp title="apphost.cs — Example single-file orchestration"
-  #:sdk Aspire.AppHost.Sdk@13.0.0
-
-  var builder = DistributedApplication.CreateBuilder(args);
-
-  var api = builder.AddProject<Projects.YourApi>("api")
-      .WithHttpHealthCheck("/health");
-
-  builder.AddProject<Projects.YourWeb>("web")
-      .WithExternalHttpEndpoints()
-      .WithReference(api)
-      .WaitFor(api);
-
-  builder.Build().Run();
-  ```
-
-  </TabItem>
-</Tabs>
+builder.Build().Run();
+```
 
 ## Add ServiceDefaults (optional)
 
@@ -199,6 +152,8 @@ ServiceDefaults provide a standardized way to add observability, resilience, and
 ## Replace with Aspire integrations (optional)
 
 Aspire provides integration libraries that simplify working with common services like Redis, PostgreSQL, RabbitMQ, and more. These integrations handle configuration, health checks, and telemetry automatically.
+
+When you add a hosting integration (like Redis) to your AppHost and reference it from a dependent resource, Aspire automatically injects the necessary configuration into that resource. This includes connection strings, URLs, environment variables, and other service-specific settings. Your services receive this configuration through the standard .NET configuration system, eliminating the need for manual connection string management.
 
 <Steps>
 
@@ -273,16 +228,16 @@ Now that you've added Aspire to your application, it's time to run it and see th
    ```
 
    The Aspire CLI will:
-   - Find your AppHost (project-based or single-file)
+   - Find your AppHost (file-based `apphost.cs`)
    - Build your solution
    - Launch all orchestrated services
    - Start the Aspire dashboard
 
 2. The dashboard URL will appear in your terminal output:
 
-   ```bash title="Example output" mark={3}
+   ```bash title="Example output" mark={4}
    🔍  Finding apphosts...
-   YourSolution.AppHost/YourSolution.AppHost.csproj
+   apphost.cs
 
    Dashboard:  https://localhost:17068/login?t=ea559845d54cea66b837dc0ff33c3bd3
 
