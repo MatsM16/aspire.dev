@@ -1,7 +1,7 @@
 [
     {
         "match": "Aspire.Azure.AI.Inference",
-        "href": "/integrations/cloud/azure/azure-ai-inference/"
+        "href": "/docs/integrations/cloud/azure/azure-ai-inference/"
     },
     {
         "match": "Aspire.Azure.AI.OpenAI",
@@ -61,7 +61,7 @@
     },
     {
         "match": "Aspire.Hosting.Azure.AIFoundry",
-        "href": "/integrations/cloud/azure/azure-ai-foundry/"
+        "href": "/docs/integrations/cloud/azure/azure-ai-foundry/"
     },
     {
         "match": "Aspire.Hosting.Azure.AppConfiguration",
@@ -69,11 +69,11 @@
     },
     {
         "match": "Aspire.Hosting.Azure.AppContainers",
-        "href": "/integrations/cloud/azure/configure-container-apps/"
+        "href": "/docs/integrations/cloud/azure/configure-container-apps/"
     },
     {
         "match": "Aspire.Hosting.Azure.ApplicationInsights",
-        "href": "/integrations/cloud/azure/overview/"
+        "href": "/docs/integrations/cloud/azure/overview/"
     },
     {
         "match": "Aspire.Hosting.Azure.AppService",
@@ -105,11 +105,11 @@
     },
     {
         "match": "Aspire.Hosting.Azure.Kusto",
-        "href": "/integrations/cloud/azure/overview/"
+        "href": "/docs/integrations/cloud/azure/overview/"
     },
     {
         "match": "Aspire.Hosting.Azure.OperationalInsights",
-        "href": "/integrations/cloud/azure/overview/"
+        "href": "/docs/integrations/cloud/azure/overview/"
     },
     {
         "match": "Aspire.Hosting.Azure.PostgreSQL",
@@ -161,7 +161,7 @@
     },
     {
         "match": "Aspire.Hosting.GitHub.Models",
-        "href": "/integrations/ai/github-models/"
+        "href": "/docs/integrations/ai/github-models/"
     },
     {
         "match": "Aspire.Hosting.JavaScript",
@@ -201,7 +201,7 @@
     },
     {
         "match": "Aspire.Hosting.OpenAI",
-        "href": "/integrations/ai/openai/"
+        "href": "/docs/integrations/ai/openai/"
     },
     {
         "match": "Aspire.Hosting.Oracle",
@@ -241,7 +241,7 @@
     },
     {
         "match": "Aspire.Hosting.Testing",
-        "href": "/testing/overview/"
+        "href": "/docs/testing/overview/"
     },
     {
         "match": "Aspire.Hosting.Valkey",
@@ -309,7 +309,7 @@
     },
     {
         "match": "Aspire.OpenAI",
-        "href": "/integrations/ai/openai/"
+        "href": "/docs/integrations/ai/openai/"
     },
     {
         "match": "Aspire.Oracle.EntityFrameworkCore",
@@ -421,7 +421,7 @@
     },
     {
         "match": "CommunityToolkit.Aspire.Hosting.Ollama",
-        "href": "/integrations/ai/ollama/"
+        "href": "/docs/integrations/ai/ollama/"
     },
     {
         "match": "CommunityToolkit.Aspire.Hosting.PostgreSQL.Extensions",
@@ -477,7 +477,7 @@
     },
     {
         "match": "CommunityToolkit.Aspire.OllamaSharp",
-        "href": "/integrations/ai/ollama/"
+        "href": "/docs/integrations/ai/ollama/"
     },
     {
         "match": "CommunityToolkit.Aspire.RavenDB.Client",
@@ -489,7 +489,7 @@
     },
     {
         "match": "CommunityToolkit.Aspire.Hosting.Azure.StaticWebApps",
-        "href": "/integrations/cloud/azure/overview/"
+        "href": "/docs/integrations/cloud/azure/overview/"
     },
     {
         "match": "CommunityToolkit.Aspire.Hosting.Dapr.AzureRedis",

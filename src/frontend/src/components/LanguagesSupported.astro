@@ -33,7 +33,7 @@ const getSearchParam = (lang: {
         {
             languages.map((lang) => (
                 <a
-                    href={`/integrations/gallery/?search=${getSearchParam(lang)}`}
+                    href={`/docs/integrations/gallery/?search=${getSearchParam(lang)}`}
                     class="language-card"
                     data-lang-name={lang.name}
                     aria-label={`${Astro.locals.t("integrations.explore", { integration: lang.name })}`}
@@ -56,7 +56,7 @@ const getSearchParam = (lang: {
             ))
         }
         <a
-            href="/integrations/gallery/?search="
+            href="/docs/integrations/gallery/?search="
             class="language-card"
             data-lang-name="And more..."
             aria-label={`${Astro.locals.t("integrations.explore", { integration: "more integrations" })}`}

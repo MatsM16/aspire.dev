@@ -20,7 +20,7 @@ export const sidebarTopics: StarlightSidebarTopicsUserConfig = [
       uk: 'Документи',
       'zh-CN': '文档',
     },
-    link: 'get-started/welcome',
+    link: 'docs/get-started/welcome',
     icon: 'open-book',
     items: [
       {
@@ -41,10 +41,10 @@ export const sidebarTopics: StarlightSidebarTopicsUserConfig = [
           tr: 'Aspire\'a Hoş Geldiniz',
           uk: 'Ласкаво просимо до Aspire',
           'zh-CN': '欢迎使用 Aspire',
-        }, slug: 'get-started/welcome'
+        }, slug: 'docs/get-started/welcome'
       },
       {
-        label: "What's new", collapsed: true, autogenerate: { directory: 'whats-new' },
+        label: "What's new", collapsed: true, autogenerate: { directory: 'docs/whats-new' },
         translations: {
           da: 'Hvad er nyt',
           de: 'Was gibt es Neues',
@@ -104,7 +104,7 @@ export const sidebarTopics: StarlightSidebarTopicsUserConfig = [
               uk: 'Попередні вимоги',
               'zh-CN': '先决条件',
             },
-            slug: 'get-started/prerequisites'
+            slug: 'docs/get-started/prerequisites'
           },
           {
             label: 'Install CLI',
@@ -126,7 +126,7 @@ export const sidebarTopics: StarlightSidebarTopicsUserConfig = [
               uk: 'Встановити CLI',
               'zh-CN': '安装 CLI',
             },
-            slug: 'get-started/install-cli'
+            slug: 'docs/get-started/install-cli'
           },
           {
             label: 'Build your first app',
@@ -148,27 +148,7 @@ export const sidebarTopics: StarlightSidebarTopicsUserConfig = [
               uk: 'Створіть свій перший додаток',
               'zh-CN': '构建您的第一个应用',
             },
-            slug: 'get-started/first-app',
-            badge: {
-              text: {
-                da: 'Hurtigstart',
-                de: 'Schnellstart',
-                en: 'Quickstart',
-                es: 'Inicio rápido',
-                fr: 'Démarrage rapide',
-                hi: 'त्वरित प्रारंभ',
-                id: 'Panduan Cepat',
-                it: 'Avvio rapido',
-                ja: 'クイックスタート',
-                ko: '빠른 시작',
-                'pt-BR': 'Introdução Rápida',
-                'pt-PT': 'Introdução Rápida',
-                ru: 'Быстрый старт',
-                tr: 'Hızlı Başlangıç',
-                uk: 'Швидкий старт',
-                'zh-CN': '快速入门',
-              }
-            }
+            slug: 'docs/get-started/first-app'
           },
           {
             label: 'Deploy your first app',
@@ -190,28 +170,7 @@ export const sidebarTopics: StarlightSidebarTopicsUserConfig = [
               uk: 'Розгорніть свій перший додаток',
               'zh-CN': '部署您的第一个应用',
             },
-            slug: 'get-started/deploy-first-app',
-            badge: {
-              variant: 'success',
-              text: {
-                da: '',
-                de: '',
-                en: 'Tutorial',
-                es: '',
-                fr: '',
-                hi: '',
-                id: '',
-                it: '',
-                ja: '',
-                ko: '',
-                'pt-BR': '',
-                'pt-PT': '',
-                ru: '',
-                tr: '',
-                uk: '',
-                'zh-CN': '',
-              }
-            }
+            slug: 'docs/get-started/deploy-first-app'
           }
         ]
       },
@@ -255,7 +214,7 @@ export const sidebarTopics: StarlightSidebarTopicsUserConfig = [
               tr: 'Aspire nedir?',
               uk: 'Що таке Aspire?',
               'zh-CN': 'Aspire 是什么？',
-            }, slug: 'get-started/what-is-aspire'
+            }, slug: 'docs/get-started/what-is-aspire'
           },
           {
             label: 'What is the AppHost?', translations: {
@@ -275,7 +234,7 @@ export const sidebarTopics: StarlightSidebarTopicsUserConfig = [
               tr: 'AppHost nedir?',
               uk: 'Що таке AppHost?',
               'zh-CN': '什么是 AppHost？',
-            }, slug: 'get-started/app-host'
+            }, slug: 'docs/get-started/app-host'
           },
           {
             label: 'Understanding resources', translations: {
@@ -295,7 +254,7 @@ export const sidebarTopics: StarlightSidebarTopicsUserConfig = [
               tr: 'Kaynakları anlama',
               uk: 'Розуміння ресурсів',
               'zh-CN': '了解资源',
-            }, slug: 'get-started/resources'
+            }, slug: 'docs/get-started/resources'
           },
           {
             label: 'Pipelines and app topology', translations: {
@@ -315,7 +274,7 @@ export const sidebarTopics: StarlightSidebarTopicsUserConfig = [
               tr: 'Dağıtım ve uygulama topolojisi',
               uk: 'Розгортання і топологія застосунку',
               'zh-CN': '部署与应用拓扑',
-            }, slug: 'get-started/pipelines'
+            }, slug: 'docs/get-started/pipelines'
           },
           {
             label: 'Service discovery', translations: {
@@ -335,7 +294,7 @@ export const sidebarTopics: StarlightSidebarTopicsUserConfig = [
               tr: 'Hizmet keşfi',
               uk: 'Виявлення служб',
               'zh-CN': '服务发现',
-            }, slug: 'fundamentals/service-discovery'
+            }, slug: 'docs/fundamentals/service-discovery'
           },
           {
             label: 'Service defaults', translations: {
@@ -355,7 +314,7 @@ export const sidebarTopics: StarlightSidebarTopicsUserConfig = [
               tr: 'Hizmet varsayılanları',
               uk: 'Значення за замовчуванням служби',
               'zh-CN': '服务默认值',
-            }, slug: 'fundamentals/service-defaults'
+            }, slug: 'docs/fundamentals/service-defaults'
           },
           {
             label: 'Launch profiles', translations: {
@@ -375,7 +334,7 @@ export const sidebarTopics: StarlightSidebarTopicsUserConfig = [
               tr: 'Başlatma profilleri',
               uk: 'Профілі запуску',
               'zh-CN': '启动配置文件',
-            }, slug: 'fundamentals/launch-profiles'
+            }, slug: 'docs/fundamentals/launch-profiles'
           },
           {
             label: 'Health checks', translations: {
@@ -395,7 +354,7 @@ export const sidebarTopics: StarlightSidebarTopicsUserConfig = [
               tr: 'Durum denetimleri',
               uk: 'Перевірки справності',
               'zh-CN': '运行状况检查',
-            }, slug: 'fundamentals/health-checks'
+            }, slug: 'docs/fundamentals/health-checks'
           }
         ]
       },
@@ -441,7 +400,7 @@ export const sidebarTopics: StarlightSidebarTopicsUserConfig = [
               tr: 'Genel Bakış',
               uk: 'Огляд',
               'zh-CN': '概述',
-            }, slug: 'testing/overview'
+            }, slug: 'docs/testing/overview'
           },
           {
             label: 'Write your first test', translations: {
@@ -462,7 +421,7 @@ export const sidebarTopics: StarlightSidebarTopicsUserConfig = [
               tr: 'İlk testinizi yazın',
               uk: 'Напишіть свій перший тест',
               'zh-CN': '编写您的第一个测试',
-            }, slug: 'testing/write-your-first-test'
+            }, slug: 'docs/testing/write-your-first-test'
           },
           {
             label: 'Manage the AppHost in tests', translations: {
@@ -483,7 +442,7 @@ export const sidebarTopics: StarlightSidebarTopicsUserConfig = [
               tr: 'Testlerde AppHost\'u yönetin',
               uk: 'Керування AppHost у тестах',
               'zh-CN': '在测试中管理 AppHost',
-            }, slug: 'testing/manage-app-host'
+            }, slug: 'docs/testing/manage-app-host'
           },
           {
             label: 'Access resources in tests', translations: {
@@ -504,7 +463,7 @@ export const sidebarTopics: StarlightSidebarTopicsUserConfig = [
               tr: 'Testlerde kaynaklara erişin',
               uk: 'Доступ до ресурсів у тестах',
               'zh-CN': '在测试中访问资源',
-            }, slug: 'testing/accessing-resources'
+            }, slug: 'docs/testing/accessing-resources'
           },
         ]
       },
@@ -550,7 +509,7 @@ export const sidebarTopics: StarlightSidebarTopicsUserConfig = [
               uk: 'Огляд',
               'zh-CN': '概述',
             },
-            slug: 'architecture/overview'
+            slug: 'docs/architecture/overview'
           },
           {
             label: 'Resource model', translations: {
@@ -570,7 +529,7 @@ export const sidebarTopics: StarlightSidebarTopicsUserConfig = [
               tr: 'Kaynak Modeli',
               uk: 'Модель ресурсу',
               'zh-CN': '资源模型',
-            }, slug: 'architecture/resource-model'
+            }, slug: 'docs/architecture/resource-model'
           },
           {
             label: 'Resource hierarchies',
@@ -591,7 +550,7 @@ export const sidebarTopics: StarlightSidebarTopicsUserConfig = [
               tr: 'Kaynak Hiyerarşileri',
               uk: 'Ієрархії ресурсів',
               'zh-CN': '资源层次结构',
-            }, slug: 'architecture/resource-hierarchies'
+            }, slug: 'docs/architecture/resource-hierarchies'
           },
           {
             label: 'Resource API patterns',
@@ -612,7 +571,7 @@ export const sidebarTopics: StarlightSidebarTopicsUserConfig = [
               tr: 'Kaynak API Desenleri',
               uk: 'Шаблони API ресурсів',
               'zh-CN': '资源API模式',
-            }, slug: 'architecture/resource-api-patterns'
+            }, slug: 'docs/architecture/resource-api-patterns'
           },
           {
             label: 'Resource publishing',
@@ -654,7 +613,7 @@ export const sidebarTopics: StarlightSidebarTopicsUserConfig = [
               tr: 'Kaynak Örnekleri',
               uk: 'Приклади ресурсів',
               'zh-CN': '资源示例',
-            }, slug: 'architecture/resource-examples'
+            }, slug: 'docs/architecture/resource-examples'
           },
           {
             label: 'Glossary', translations: {
@@ -675,7 +634,7 @@ export const sidebarTopics: StarlightSidebarTopicsUserConfig = [
               uk: 'Глосарій',
               'zh-CN': '术语表',
             },
-            slug: 'architecture/glossary'
+            slug: 'docs/architecture/glossary'
           },
         ]
       }
@@ -701,7 +660,7 @@ export const sidebarTopics: StarlightSidebarTopicsUserConfig = [
       tr: 'Entegrasyonlar',
       uk: 'Інтеграції',
     },
-    link: '/integrations/gallery',
+    link: 'docs/integrations/gallery',
     icon: 'puzzle',
     items: [
       {
@@ -743,7 +702,7 @@ export const sidebarTopics: StarlightSidebarTopicsUserConfig = [
               tr: 'Entegrasyon galerisi',
               uk: 'Галерея інтеграцій',
               'zh-CN': '集成图库',
-            }, slug: 'integrations/gallery'
+            }, slug: 'docs/integrations/gallery'
           },
           {
             label: 'Overview', translations: {
@@ -764,7 +723,7 @@ export const sidebarTopics: StarlightSidebarTopicsUserConfig = [
               tr: 'Genel Bakış',
               uk: 'Огляд',
               'zh-CN': '概述',
-            }, slug: 'integrations/overview'
+            }, slug: 'docs/integrations/overview'
           },
         ]
       },
@@ -791,9 +750,9 @@ export const sidebarTopics: StarlightSidebarTopicsUserConfig = [
           'zh-CN': '人工智能 (AI)',
         },
         items: [
-          { label: "GitHub Models", slug: "integrations/ai/github-models" },
-          { label: "Ollama", slug: "integrations/ai/ollama" },
-          { label: "OpenAI", slug: "integrations/ai/openai" },
+          { label: "GitHub Models", slug: "docs/integrations/ai/github-models" },
+          { label: "Ollama", slug: "docs/integrations/ai/ollama" },
+          { label: "OpenAI", slug: "docs/integrations/ai/openai" },
         ]
       },
       {
@@ -823,15 +782,16 @@ export const sidebarTopics: StarlightSidebarTopicsUserConfig = [
             label: 'Azure',
             collapsed: true,
             items: [
-              { label: 'Overview', slug: 'integrations/cloud/azure/overview' },
-              { label: 'Customize Azure resources', slug: 'integrations/cloud/azure/customize-resources' },
-              { label: 'Local Azure provisioning', slug: 'integrations/cloud/azure/local-provisioning' },
-              { label: 'Configure Azure Container Apps', slug: 'integrations/cloud/azure/configure-container-apps' },
+              { label: 'Overview', slug: 'docs/integrations/cloud/azure/overview' },
+              { label: 'Customize Azure resources', slug: 'docs/integrations/cloud/azure/customize-resources' },
+              { label: 'Local Azure provisioning', slug: 'docs/integrations/cloud/azure/local-provisioning' },
+              { label: 'Configure Azure Container Apps', slug: 'docs/integrations/cloud/azure/configure-container-apps' },
               {
                 label: 'Azure AI', items: [
-                  { label: 'AI compatibility matrix', slug: 'integrations/cloud/azure/ai-compatibility-matrix' },
-                  { label: 'Azure AI Foundry', slug: 'integrations/cloud/azure/azure-ai-foundry' },
-                  { label: 'Azure AI Inference', slug: 'integrations/cloud/azure/azure-ai-inference' },
+                  { label: 'AI compatibility matrix', slug: 'docs/integrations/cloud/azure/ai-compatibility-matrix' },
+                  { label: 'Azure AI Foundry', slug: 'docs/integrations/cloud/azure/azure-ai-foundry' },
+                  // TODO: Here's where I left off...
+                  { label: 'Azure AI Inference', slug: 'docs/integrations/cloud/azure/azure-ai-inference' },
                   { label: 'Azure AI Search', slug: 'integrations/cloud/azure/azure-ai-search' },
                   { label: 'Azure OpenAI', slug: 'integrations/cloud/azure/azure-openai' },
                 ]

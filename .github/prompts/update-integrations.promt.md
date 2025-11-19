@@ -49,7 +49,7 @@ Save the updated `integration-docs.json` with all current packages properly mapp
 },
 {
   "match": "Aspire.Hosting.Testing",
-  "href": "/testing/overview/"
+  "href": "/docs/testing/overview/"
 }
 ```
 
