@@ -233,28 +233,7 @@ export const sidebarTopics: StarlightSidebarTopicsUserConfig = [
               "uk": "Aspireify наявний застосунок",
               "zh-CN": "对现有应用进行 Aspireify"
             },
-            slug: 'get-started/add-aspire-existing-app',
-            badge: {
-              variant: 'note',
-              text: {
-                da: 'Vejledning',
-                de: 'Anleitung',
-                en: 'How-to',
-                es: 'Guía',
-                fr: 'Guide',
-                hi: 'कैसे करें',
-                id: 'Cara',
-                it: 'Guida',
-                ja: '方法',
-                ko: '방법',
-                'pt-BR': 'Como fazer',
-                'pt-PT': 'Como fazer',
-                ru: 'Инструкция',
-                tr: 'Nasıl yapılır',
-                uk: 'Інструкція',
-                'zh-CN': '操作指南',
-              }
-            }
+            slug: 'get-started/add-aspire-existing-app'
           }
         ]
       },
