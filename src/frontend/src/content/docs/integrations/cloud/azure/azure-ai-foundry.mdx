@@ -64,65 +64,6 @@ builder.AddProject<Projects.ExampleProject>()
 // After adding all resources, run the app...
 ```
 
-For more information on treating Azure AI Foundry resources as existing resources, see [Use existing Azure resources](https://learn.microsoft.com/integrations-overview/#use-existing-azure-resources).
-
 ## Client integration
 
-The Aspire Azure AI Foundry client integration is used to connect to an Azure AI Foundry project. To get started with the Aspire Azure AI Foundry client integration, install the [📦 Aspire.Azure.AI.Foundry](https://www.nuget.org/packages/Aspire.Azure.AI.Foundry) NuGet package.
-
-<InstallDotNetPackage packageName="Aspire.Azure.AI.Foundry" />
-
-### Add AI Foundry client
-
-In the `Program.cs` file of your client-consuming project, call the `AddAzureAIFoundryClient` extension method to register an AI Foundry client for use via the dependency injection container. The method takes a connection name parameter:
-
-```csharp
-builder.AddAzureAIFoundryClient(connectionName: "ai-foundry");
-```
-
-<Aside type="tip">
-The `connectionName` parameter must match the name used when adding the AI Foundry resource in the AppHost project.
-</Aside>
-
-### Configuration
-
-The Aspire Azure AI Foundry library provides multiple options to configure the connection based on the requirements and conventions of your project.
-
-#### Use a connection string
-
-When using a connection string from the `ConnectionStrings` configuration section, you can provide the name of the connection string when calling `AddAzureAIFoundryClient`:
-
-```csharp
-builder.AddAzureAIFoundryClient(connectionName: "ai-foundry");
-```
-
-The connection information is retrieved from the `ConnectionStrings` configuration section:
-
-```json
-{
-  "ConnectionStrings": {
-    "ai-foundry": "https://{project-name}.{region}.inference.ai.azure.com"
-  }
-}
-```
-
-### Observability and telemetry
-
-Aspire integrations automatically set up Logging, Tracing, and Metrics configurations.
-
-#### Logging
-
-The Aspire Azure AI Foundry integration uses the following log categories:
-
-- `Azure`
-- `Azure.Core`
-- `Azure.Identity`
-- `Azure.AI.Foundry`
-
-#### Tracing
-
-The Aspire Azure AI Foundry integration will emit tracing activities using OpenTelemetry for AI operations.
-
-#### Metrics
-
-The Aspire Azure AI Foundry integration currently doesn't support metrics by default due to limitations with the Azure SDK for .NET.
+The client integration for Azure AI Foundry is the [Azure AI Inference](/integrations/cloud/azure/azure-ai-inference/) integration.
